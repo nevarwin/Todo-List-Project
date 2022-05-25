@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import './home.dart';
+import './models/todo.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Todo App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -19,7 +23,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
   final String title;
 
   @override
@@ -34,23 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: buildDraggable(context),
-      ),
+      body: const Home(),
     );
-  }
-
-  Widget buildDraggable(BuildContext context) {
-    return Draggable(
-        child: Container(
-          height: size,
-          width: size,
-          color: Colors.red,
-        ),
-        feedback: Container(
-          height: size,
-          width: size,
-          color: Colors.purple,
-        ));
   }
 }
