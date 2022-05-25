@@ -21,3 +21,21 @@ class Todo {
     this.label,
   );
 }
+
+final allTodos = [
+  Todo(
+    'Task1',
+    Importance.low,
+    Label.todo,
+  ),
+  Todo(
+    'Task2',
+    Importance.medium,
+    Label.doing,
+  ),
+  Todo(
+    'Task2',
+    Importance.high,
+    Label.done,
+  ),
+];
