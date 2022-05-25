@@ -18,6 +18,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: buildPages(),
       bottomNavigationBar: buildBottomNavigationBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.add),
+      ),
     );
   }
 
