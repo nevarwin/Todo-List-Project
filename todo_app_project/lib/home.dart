@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './screens/create_todo_screen.dart';
+
 import './screens/todo_screen.dart';
 import './screens/doing_screen.dart';
 import './screens/done_screen.dart';
@@ -19,8 +21,13 @@ class _HomeState extends State<Home> {
       body: buildPages(),
       bottomNavigationBar: buildBottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            './createTodoScreen',
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
