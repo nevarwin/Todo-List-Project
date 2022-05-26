@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app_project/screens/create_todo_screen.dart';
 
 import './home.dart';
 import './models/todo.dart';
@@ -37,11 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
   static const size = 150.0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: const Home(),
+    return MaterialApp(
+      title: widget.title,
+      initialRoute: '/',
+      routes: {
+        '/': (ctx) => const Home(),
+        CreateTodoScreen.routeName: (ctx) => const CreateTodoScreen(),
+      },
     );
   }
 }
