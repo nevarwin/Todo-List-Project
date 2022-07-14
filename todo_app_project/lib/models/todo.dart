@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum Importance {
   low,
   medium,
@@ -11,31 +13,15 @@ enum Label {
 }
 
 class Todo {
-  String title;
-  Importance importance;
-  Label label;
+  final String id;
+  final String title;
+  final Importance importance;
+  final Label label;
 
-  Todo(
-    this.title,
-    this.importance,
-    this.label,
-  );
+  Todo({
+    required this.id,
+    required this.title,
+    required this.importance,
+    required this.label,
+  });
 }
-
-final allTodos = [
-  Todo(
-    'Task1',
-    Importance.low,
-    Label.todo,
-  ),
-  Todo(
-    'Task2',
-    Importance.medium,
-    Label.doing,
-  ),
-  Todo(
-    'Task2',
-    Importance.high,
-    Label.done,
-  ),
-];

@@ -5,8 +5,14 @@ class TodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.redAccent,
+    return Scaffold(
+      appBar: AppBar(actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: (() {}),
+        )
+      ]),
+      body: Center(child: Text('try')),
     );
   }
 }

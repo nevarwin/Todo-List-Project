@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_project/screens/create_todo_screen.dart';
 
-import './home.dart';
 import './models/todo.dart';
+import './screens/todo_screen.dart';
+import './widgets/new_todo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,16 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Todo App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: const Color.fromRGBO(255, 182, 115, 1),
+        ),
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Color.fromRGBO(255, 182, 115, 1),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          splashColor: Color.fromRGBO(255, 182, 115, 1),
+          backgroundColor: Color.fromRGBO(255, 182, 115, 1),
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Todo App'),
     );
@@ -35,16 +44,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static const size = 150.0;
+  void _showModal() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {},
+          child: NewTodo(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: widget.title,
-      initialRoute: '/',
-      routes: {
-        '/': (ctx) => const Home(),
-        CreateTodoScreen.routeName: (ctx) => const CreateTodoScreen(),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Todo'),
+        ),
+        body: SingleChildScrollView(),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: _showModal,
+        ),
+      ),
     );
   }
 }
