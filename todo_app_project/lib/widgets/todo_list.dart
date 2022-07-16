@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/todo.dart';
 
 class TodoList extends StatelessWidget {
-  TodoList({
+  const TodoList({
     Key? key,
     required this.allTodos,
   }) : super(key: key);

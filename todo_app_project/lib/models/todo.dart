@@ -22,8 +22,8 @@ class Todo {
   Todo({
     required this.id,
     required this.title,
-    required this.importance,
-    required this.label,
+    this.importance = Importance.low,
+    this.label = Label.todo,
     required this.date,
   });
 }

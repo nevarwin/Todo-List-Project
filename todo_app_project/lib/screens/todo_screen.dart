@@ -14,24 +14,25 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<Todo> _todos = [];
+    final List<Todo> _todoMap = [];
 
-    void _addTodo({
-      required String id,
-      required String title,
-      required Importance importance,
-      required Label label,
-      required DateTime date,
-    }) {
+    void _addNewTodo(
+      String title,
+      Importance importance,
+      Label label,
+      DateTime date,
+    ) {
       final newTodo = Todo(
-        id: id,
+        id: DateTime.now().toIso8601String(),
         title: title,
         importance: importance,
         label: label,
         date: date,
       );
+
       setState(() {
-        _todos.add(newTodo);
+        _todoMap.add(newTodo);
+        print(_todoMap);
       });
     }
 
@@ -44,7 +45,7 @@ class _TodoScreenState extends State<TodoScreen> {
             behavior: HitTestBehavior.opaque,
             onTap: () {},
             child: NewTodo(
-              addTodo: _addTodo,
+              addTodo: _addNewTodo,
             ),
           );
         },
@@ -67,7 +68,7 @@ class _TodoScreenState extends State<TodoScreen> {
           child: Column(
             children: [
               TodoList(
-                allTodos: _todos,
+                allTodos: _todoMap,
               ),
             ],
           ),

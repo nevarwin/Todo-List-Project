@@ -47,6 +47,7 @@ class _NewTodoState extends State<NewTodo> {
       onSelected: (selected) {
         setState(() {
           _importance = importanceChip!;
+          print(_importance);
         });
       },
     );
@@ -64,6 +65,7 @@ class _NewTodoState extends State<NewTodo> {
       onSelected: (selected) {
         setState(() {
           _label = labelChip!;
+          print(_label);
         });
       },
     );
@@ -89,13 +91,16 @@ class _NewTodoState extends State<NewTodo> {
     final tCtrl = titleController.text;
     final date = _choosenDate.toString();
 
-    if (tCtrl == '' || date == '') {
+    if (tCtrl == '' && date == '') {
       return;
     }
     widget.addTodo(
-      title: tCtrl,
-      date: _choosenDate,
+      tCtrl,
+      _importance,
+      _label,
+      _choosenDate,
     );
+    Navigator.of(context).pop();
   }
 
   @override
@@ -190,7 +195,7 @@ class _NewTodoState extends State<NewTodo> {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: _submit,
                       child: const Text(
                         'Submit',
                         style: TextStyle(
