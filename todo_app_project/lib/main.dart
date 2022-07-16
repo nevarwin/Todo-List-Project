@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 
-import './models/todo.dart';
 import './screens/todo_screen.dart';
-import './widgets/new_todo.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+Map<int, Color> color = {
+  50: const Color.fromRGBO(255, 182, 115, .1),
+  100: const Color.fromRGBO(255, 182, 115, .2),
+  200: const Color.fromRGBO(255, 182, 115, .3),
+  300: const Color.fromRGBO(255, 182, 115, .4),
+  400: const Color.fromRGBO(255, 182, 115, .5),
+  500: const Color.fromRGBO(255, 182, 115, .6),
+  600: const Color.fromRGBO(255, 182, 115, .7),
+  700: const Color.fromRGBO(255, 182, 115, .8),
+  800: const Color.fromRGBO(255, 182, 115, .9),
+  900: const Color.fromRGBO(255, 182, 115, 1),
+};
+MaterialColor colorCustom = MaterialColor(0xFFFF03, color);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -16,9 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Todo App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromRGBO(255, 182, 115, 1),
-        ),
+        primarySwatch: colorCustom,
         buttonTheme: const ButtonThemeData(
           buttonColor: Color.fromRGBO(255, 182, 115, 1),
         ),
@@ -44,20 +54,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _showModal() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (_) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {},
-          child: NewTodo(),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -68,15 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
           currentFocus.unfocus();
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Todo'),
-        ),
-        body: SingleChildScrollView(),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: _showModal,
-        ),
+      child: MaterialApp(
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const TodoScreen(),
+        },
       ),
     );
   }

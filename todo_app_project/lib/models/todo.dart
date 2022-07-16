@@ -17,11 +17,13 @@ class Todo {
   final String title;
   final Importance importance;
   final Label label;
+  final DateTime date;
 
   Todo({
     required this.id,
     required this.title,
     required this.importance,
     required this.label,
+    required this.date,
   });
 }
