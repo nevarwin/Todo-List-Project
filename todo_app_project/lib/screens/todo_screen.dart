@@ -14,7 +14,13 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<Todo> _todoMap = [];
+    final List<Todo> _todoMap = [
+      Todo(
+        id: DateTime.now().toString(),
+        title: 'Title1',
+        date: DateTime.now(),
+      )
+    ];
 
     void _addNewTodo(
       String title,
@@ -64,14 +70,12 @@ class _TodoScreenState extends State<TodoScreen> {
         appBar: AppBar(
           title: const Text('Todo'),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TodoList(
-                allTodos: _todoMap,
-              ),
-            ],
-          ),
+        body: Column(
+          children: [
+            TodoList(
+              allTodos: _todoMap,
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),

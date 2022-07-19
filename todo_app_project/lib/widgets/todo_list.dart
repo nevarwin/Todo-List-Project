@@ -16,24 +16,33 @@ class TodoList extends StatelessWidget {
         ? const Center(
             child: Text('No todos'),
           )
-        : ListView.builder(itemBuilder: (context, index) {
-            return ListTile(
-              subtitle: Column(
-                children: [
-                  Text(allTodos[index].title),
-                  Chip(
-                    label: Text(
-                      allTodos[index].importance.toString(),
+        : Expanded(
+            child: ListView.builder(
+                itemCount: allTodos.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 5,
+                    color: Colors.blueGrey[50],
+                    child: ListTile(
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(allTodos[index].title),
+                          Chip(
+                            label: Text(
+                              allTodos[index].importance.toString(),
+                            ),
+                          ),
+                          Chip(
+                            label: Text(
+                              allTodos[index].label.toString(),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Chip(
-                    label: Text(
-                      allTodos[index].label.toString(),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          });
+                  );
+                }),
+          );
   }
 }

@@ -36,17 +36,17 @@ class _NewTodoState extends State<NewTodo> {
   }
 
   Widget _buildImportanceChip({
-    String? chipTitle,
+    required String chipTitle,
     var chipVar,
-    Importance? importanceChip,
+    required Importance importanceChip,
   }) {
     return ChoiceChip(
       selectedColor: const Color.fromRGBO(255, 182, 115, 1),
-      label: Text(chipTitle!),
+      label: Text(chipTitle),
       selected: chipVar == importanceChip,
       onSelected: (selected) {
         setState(() {
-          _importance = importanceChip!;
+          _importance = importanceChip;
           print(_importance);
         });
       },
@@ -154,6 +154,18 @@ class _NewTodoState extends State<NewTodo> {
                             chipVar: _importance,
                             importanceChip: Importance.high,
                           ),
+                          ChoiceChip(
+                            selectedColor:
+                                const Color.fromRGBO(255, 182, 115, 1),
+                            label: Text('try'),
+                            selected: _label == Label.todo,
+                            onSelected: (selected) {
+                              setState(() {
+                                _label = Label.todo;
+                                print(_label);
+                              });
+                            },
+                          )
                         ],
                       ),
                     ],
