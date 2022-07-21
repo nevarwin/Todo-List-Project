@@ -28,15 +28,22 @@ class TodoList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(allTodos[index].title),
-                          Chip(
-                            label: Text(
-                              allTodos[index].importance.toString(),
-                            ),
-                          ),
-                          Chip(
-                            label: Text(
-                              allTodos[index].label.toString(),
-                            ),
+                          Row(
+                            children: [
+                              if (Importance.low == allTodos[index].importance)
+                                const Text('Low'),
+                              if (Importance.medium ==
+                                  allTodos[index].importance)
+                                const Text('Medium'),
+                              if (Importance.high == allTodos[index].importance)
+                                const Text('High'),
+                              const SizedBox(width: 10),
+                              Chip(
+                                label: Text(
+                                  allTodos[index].label.toString(),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

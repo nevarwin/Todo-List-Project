@@ -15,11 +15,11 @@ class _TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Todo> _todoMap = [
-      Todo(
-        id: DateTime.now().toString(),
-        title: 'Title1',
-        date: DateTime.now(),
-      )
+      // Todo(
+      //   id: DateTime.now().toString(),
+      //   title: 'Title1',
+      //   date: DateTime.now(),
+      // )
     ];
 
     void _addNewTodo(
@@ -38,7 +38,7 @@ class _TodoScreenState extends State<TodoScreen> {
 
       setState(() {
         _todoMap.add(newTodo);
-        print(_todoMap);
+        print('submitted');
       });
     }
 

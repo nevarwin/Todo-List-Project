@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:todo_app_project/models/todo.dart';
 
 class NewTodo extends StatefulWidget {
@@ -16,8 +18,8 @@ class NewTodo extends StatefulWidget {
 class _NewTodoState extends State<NewTodo> {
   final titleController = TextEditingController();
   DateTime? _choosenDate;
-  var _importance = Importance.low;
-  var _label = Label.todo;
+  Importance _importance = Importance.low;
+  Label _label = Label.todo;
 
   @override
   void dispose() {
@@ -47,7 +49,6 @@ class _NewTodoState extends State<NewTodo> {
       onSelected: (selected) {
         setState(() {
           _importance = importanceChip;
-          print(_importance);
         });
       },
     );
@@ -65,7 +66,6 @@ class _NewTodoState extends State<NewTodo> {
       onSelected: (selected) {
         setState(() {
           _label = labelChip!;
-          print(_label);
         });
       },
     );
@@ -154,18 +154,6 @@ class _NewTodoState extends State<NewTodo> {
                             chipVar: _importance,
                             importanceChip: Importance.high,
                           ),
-                          ChoiceChip(
-                            selectedColor:
-                                const Color.fromRGBO(255, 182, 115, 1),
-                            label: Text('try'),
-                            selected: _label == Label.todo,
-                            onSelected: (selected) {
-                              setState(() {
-                                _label = Label.todo;
-                                print(_label);
-                              });
-                            },
-                          )
                         ],
                       ),
                     ],
@@ -197,12 +185,21 @@ class _NewTodoState extends State<NewTodo> {
                       ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: _setDate,
-                    icon: const Icon(
-                      Icons.date_range_outlined,
-                      color: Color.fromRGBO(255, 182, 115, 1),
-                    ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: _setDate,
+                        icon: const Icon(
+                          Icons.date_range_outlined,
+                          color: Color.fromRGBO(255, 182, 115, 1),
+                        ),
+                      ),
+                      Text(
+                        _choosenDate == null
+                            ? 'No Date Chosen'
+                            : DateFormat.yMEd().format(_choosenDate!),
+                      ),
+                    ],
                   ),
                   Align(
                     alignment: Alignment.bottomRight,
