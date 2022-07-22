@@ -12,9 +12,7 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Todo> _todoMap = [
+  final List<Todo> _todoMap = [
       // Todo(
       //   id: DateTime.now().toString(),
       //   title: 'Title1',
@@ -57,7 +55,8 @@ class _TodoScreenState extends State<TodoScreen> {
         },
       );
     }
-
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);

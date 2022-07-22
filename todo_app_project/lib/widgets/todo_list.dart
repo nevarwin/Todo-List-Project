@@ -31,7 +31,11 @@ class TodoList extends StatelessWidget {
                         Row(
                           children: [
                             if (Importance.low == allTodos[index].importance)
-                              const Text('Low'),
+                              const Chip(
+                                label: Text('Low'),
+                                backgroundColor:
+                                    Color.fromRGBO(255, 182, 115, 1),
+                              ),
                             if (Importance.medium == allTodos[index].importance)
                               const Text('Medium'),
                             if (Importance.high == allTodos[index].importance)
@@ -39,7 +43,7 @@ class TodoList extends StatelessWidget {
                             const SizedBox(width: 10),
                             Chip(
                               label: Text(
-                                allTodos[index].label.toString(),
+                                '${allTodos[index].label}',
                               ),
                             ),
                           ],
