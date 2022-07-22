@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app_project/models/todo.dart';
 
 class NewTodo extends StatefulWidget {
-  NewTodo({
+  const NewTodo({
     Key? key,
     required this.addTodo,
   }) : super(key: key);
@@ -89,9 +89,8 @@ class _NewTodoState extends State<NewTodo> {
 
   void _submit() {
     final tCtrl = titleController.text;
-    final date = _choosenDate.toString();
 
-    if (tCtrl == '' && date == '') {
+    if (tCtrl == '') {
       return;
     }
     widget.addTodo(

@@ -18,38 +18,38 @@ class TodoList extends StatelessWidget {
           )
         : Expanded(
             child: ListView.builder(
-                itemCount: allTodos.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 5,
-                    color: Colors.blueGrey[50],
-                    child: ListTile(
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(allTodos[index].title),
-                          Row(
-                            children: [
-                              if (Importance.low == allTodos[index].importance)
-                                const Text('Low'),
-                              if (Importance.medium ==
-                                  allTodos[index].importance)
-                                const Text('Medium'),
-                              if (Importance.high == allTodos[index].importance)
-                                const Text('High'),
-                              const SizedBox(width: 10),
-                              Chip(
-                                label: Text(
-                                  allTodos[index].label.toString(),
-                                ),
+              itemCount: allTodos.length,
+              itemBuilder: ((context, index) {
+                return Card(
+                  elevation: 5,
+                  color: Colors.blueGrey[50],
+                  child: ListTile(
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(allTodos[index].title),
+                        Row(
+                          children: [
+                            if (Importance.low == allTodos[index].importance)
+                              const Text('Low'),
+                            if (Importance.medium == allTodos[index].importance)
+                              const Text('Medium'),
+                            if (Importance.high == allTodos[index].importance)
+                              const Text('High'),
+                            const SizedBox(width: 10),
+                            Chip(
+                              label: Text(
+                                allTodos[index].label.toString(),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                }),
+                  ),
+                );
+              }),
+            ),
           );
   }
 }

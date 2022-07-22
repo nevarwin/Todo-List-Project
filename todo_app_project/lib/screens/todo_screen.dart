@@ -23,17 +23,17 @@ class _TodoScreenState extends State<TodoScreen> {
     ];
 
     void _addNewTodo(
-      String title,
-      Importance importance,
-      Label label,
-      DateTime date,
+      String addtitle,
+      Importance addimportance,
+      Label addlabel,
+      DateTime adddate,
     ) {
       final newTodo = Todo(
-        id: DateTime.now().toIso8601String(),
-        title: title,
-        importance: importance,
-        label: label,
-        date: date,
+        id: DateTime.now().toString(),
+        title: addtitle,
+        importance: addimportance,
+        label: addlabel,
+        date: adddate,
       );
 
       setState(() {
