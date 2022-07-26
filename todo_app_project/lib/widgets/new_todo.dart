@@ -106,117 +106,119 @@ class _NewTodoState extends State<NewTodo> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blueGrey[50],
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          color: Colors.blueGrey[50],
-          padding: MediaQuery.of(context).viewInsets,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'New Task',
-                      labelStyle: TextStyle(
+      child: Container(
+        color: Colors.blueGrey[50],
+        padding: EdgeInsets.only(
+          top: 0,
+          left: 10,
+          right: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'New Task',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  controller: titleController,
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) {
+                    value = titleController.text;
+                  },
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildChipTitle('Importance'),
+                    Wrap(
+                      spacing: 8.0,
+                      children: [
+                        _buildImportanceChip(
+                          chipTitle: 'Low',
+                          chipVar: _importance,
+                          importanceChip: Importance.low,
+                        ),
+                        _buildImportanceChip(
+                          chipTitle: 'Medium',
+                          chipVar: _importance,
+                          importanceChip: Importance.medium,
+                        ),
+                        _buildImportanceChip(
+                          chipTitle: 'High',
+                          chipVar: _importance,
+                          importanceChip: Importance.high,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildChipTitle('Label'),
+                    Wrap(
+                      spacing: 8.0,
+                      children: [
+                        _buildLabelChip(
+                          chipTitle: 'Todo',
+                          chipVar: _label,
+                          labelChip: Label.todo,
+                        ),
+                        _buildLabelChip(
+                          chipTitle: 'Doing',
+                          chipVar: _label,
+                          labelChip: Label.doing,
+                        ),
+                        _buildLabelChip(
+                          chipTitle: 'Done',
+                          chipVar: _label,
+                          labelChip: Label.done,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: _setDate,
+                      icon: const Icon(
+                        Icons.date_range_outlined,
+                        color: Color.fromRGBO(255, 182, 115, 1),
+                      ),
+                    ),
+                    Text(
+                      _choosenDate == null
+                          ? 'No Date Chosen'
+                          : DateFormat.yMEd().format(_choosenDate!),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: _submit,
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    controller: titleController,
-                    keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      value = titleController.text;
-                    },
                   ),
-                  const SizedBox(height: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildChipTitle('Importance'),
-                      Wrap(
-                        spacing: 8.0,
-                        children: [
-                          _buildImportanceChip(
-                            chipTitle: 'Low',
-                            chipVar: _importance,
-                            importanceChip: Importance.low,
-                          ),
-                          _buildImportanceChip(
-                            chipTitle: 'Medium',
-                            chipVar: _importance,
-                            importanceChip: Importance.medium,
-                          ),
-                          _buildImportanceChip(
-                            chipTitle: 'High',
-                            chipVar: _importance,
-                            importanceChip: Importance.high,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildChipTitle('Label'),
-                      Wrap(
-                        spacing: 8.0,
-                        children: [
-                          _buildLabelChip(
-                            chipTitle: 'Todo',
-                            chipVar: _label,
-                            labelChip: Label.todo,
-                          ),
-                          _buildLabelChip(
-                            chipTitle: 'Doing',
-                            chipVar: _label,
-                            labelChip: Label.doing,
-                          ),
-                          _buildLabelChip(
-                            chipTitle: 'Done',
-                            chipVar: _label,
-                            labelChip: Label.done,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: _setDate,
-                        icon: const Icon(
-                          Icons.date_range_outlined,
-                          color: Color.fromRGBO(255, 182, 115, 1),
-                        ),
-                      ),
-                      Text(
-                        _choosenDate == null
-                            ? 'No Date Chosen'
-                            : DateFormat.yMEd().format(_choosenDate!),
-                      ),
-                    ],
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: _submit,
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
