@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:todo_app_project/models/todo.dart';
 
 class NewTodo extends StatefulWidget {
-  NewTodo({
+  const NewTodo({
     Key? key,
     required this.addTodo,
   }) : super(key: key);
@@ -16,8 +18,8 @@ class NewTodo extends StatefulWidget {
 class _NewTodoState extends State<NewTodo> {
   final titleController = TextEditingController();
   DateTime? _choosenDate;
-  var _importance = Importance.low;
-  var _label = Label.todo;
+  Importance _importance = Importance.low;
+  Label _label = Label.todo;
 
   @override
   void dispose() {
@@ -36,18 +38,17 @@ class _NewTodoState extends State<NewTodo> {
   }
 
   Widget _buildImportanceChip({
-    String? chipTitle,
+    required String chipTitle,
     var chipVar,
-    Importance? importanceChip,
+    required Importance importanceChip,
   }) {
     return ChoiceChip(
       selectedColor: const Color.fromRGBO(255, 182, 115, 1),
-      label: Text(chipTitle!),
+      label: Text(chipTitle),
       selected: chipVar == importanceChip,
       onSelected: (selected) {
         setState(() {
-          _importance = importanceChip!;
-          print(_importance);
+          _importance = importanceChip;
         });
       },
     );
@@ -65,7 +66,6 @@ class _NewTodoState extends State<NewTodo> {
       onSelected: (selected) {
         setState(() {
           _label = labelChip!;
-          print(_label);
         });
       },
     );
@@ -89,9 +89,8 @@ class _NewTodoState extends State<NewTodo> {
 
   void _submit() {
     final tCtrl = titleController.text;
-    final date = _choosenDate.toString();
 
-    if (tCtrl == '' && date == '') {
+    if (tCtrl == '') {
       return;
     }
     widget.addTodo(
@@ -107,108 +106,119 @@ class _NewTodoState extends State<NewTodo> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blueGrey[50],
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          color: Colors.blueGrey[50],
-          padding: MediaQuery.of(context).viewInsets,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'New Task',
-                      labelStyle: TextStyle(
+      child: Container(
+        color: Colors.blueGrey[50],
+        padding: EdgeInsets.only(
+          top: 0,
+          left: 10,
+          right: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'New Task',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  controller: titleController,
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) {
+                    value = titleController.text;
+                  },
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildChipTitle('Importance'),
+                    Wrap(
+                      spacing: 8.0,
+                      children: [
+                        _buildImportanceChip(
+                          chipTitle: 'Low',
+                          chipVar: _importance,
+                          importanceChip: Importance.low,
+                        ),
+                        _buildImportanceChip(
+                          chipTitle: 'Medium',
+                          chipVar: _importance,
+                          importanceChip: Importance.medium,
+                        ),
+                        _buildImportanceChip(
+                          chipTitle: 'High',
+                          chipVar: _importance,
+                          importanceChip: Importance.high,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildChipTitle('Label'),
+                    Wrap(
+                      spacing: 8.0,
+                      children: [
+                        _buildLabelChip(
+                          chipTitle: 'Todo',
+                          chipVar: _label,
+                          labelChip: Label.todo,
+                        ),
+                        _buildLabelChip(
+                          chipTitle: 'Doing',
+                          chipVar: _label,
+                          labelChip: Label.doing,
+                        ),
+                        _buildLabelChip(
+                          chipTitle: 'Done',
+                          chipVar: _label,
+                          labelChip: Label.done,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: _setDate,
+                      icon: const Icon(
+                        Icons.date_range_outlined,
+                        color: Color.fromRGBO(255, 182, 115, 1),
+                      ),
+                    ),
+                    Text(
+                      _choosenDate == null
+                          ? 'No Date Chosen'
+                          : DateFormat.yMEd().format(_choosenDate!),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: _submit,
+                    child: const Text(
+                      'Submit',
+                      style: TextStyle(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    controller: titleController,
-                    keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      value = titleController.text;
-                    },
                   ),
-                  const SizedBox(height: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildChipTitle('Importance'),
-                      Wrap(
-                        spacing: 8.0,
-                        children: [
-                          _buildImportanceChip(
-                            chipTitle: 'Low',
-                            chipVar: _importance,
-                            importanceChip: Importance.low,
-                          ),
-                          _buildImportanceChip(
-                            chipTitle: 'Medium',
-                            chipVar: _importance,
-                            importanceChip: Importance.medium,
-                          ),
-                          _buildImportanceChip(
-                            chipTitle: 'High',
-                            chipVar: _importance,
-                            importanceChip: Importance.high,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildChipTitle('Label'),
-                      Wrap(
-                        spacing: 8.0,
-                        children: [
-                          _buildLabelChip(
-                            chipTitle: 'Todo',
-                            chipVar: _label,
-                            labelChip: Label.todo,
-                          ),
-                          _buildLabelChip(
-                            chipTitle: 'Doing',
-                            chipVar: _label,
-                            labelChip: Label.doing,
-                          ),
-                          _buildLabelChip(
-                            chipTitle: 'Done',
-                            chipVar: _label,
-                            labelChip: Label.done,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: _setDate,
-                    icon: const Icon(
-                      Icons.date_range_outlined,
-                      color: Color.fromRGBO(255, 182, 115, 1),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: _submit,
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

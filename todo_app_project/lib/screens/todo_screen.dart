@@ -12,27 +12,31 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final List<Todo> _todoMap = [];
+  final List<Todo> _todoMap = [
+      // Todo(
+      //   id: DateTime.now().toString(),
+      //   title: 'Title1',
+      //   date: DateTime.now(),
+      // )
+    ];
 
     void _addNewTodo(
-      String title,
-      Importance importance,
-      Label label,
-      DateTime date,
+      String addtitle,
+      Importance addimportance,
+      Label addlabel,
+      DateTime adddate,
     ) {
       final newTodo = Todo(
-        id: DateTime.now().toIso8601String(),
-        title: title,
-        importance: importance,
-        label: label,
-        date: date,
+        id: DateTime.now().toString(),
+        title: addtitle,
+        importance: addimportance,
+        label: addlabel,
+        date: adddate,
       );
 
       setState(() {
         _todoMap.add(newTodo);
-        print(_todoMap);
+        print('submitted');
       });
     }
 
@@ -51,7 +55,8 @@ class _TodoScreenState extends State<TodoScreen> {
         },
       );
     }
-
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -64,14 +69,12 @@ class _TodoScreenState extends State<TodoScreen> {
         appBar: AppBar(
           title: const Text('Todo'),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TodoList(
-                allTodos: _todoMap,
-              ),
-            ],
-          ),
+        body: Column(
+          children: [
+            TodoList(
+              allTodos: _todoMap,
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
