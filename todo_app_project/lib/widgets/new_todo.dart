@@ -121,6 +121,8 @@ class _NewTodoState extends State<NewTodo> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
+                  // Todo
+                  onSubmitted: (_) => _submit,
                   decoration: const InputDecoration(
                     labelText: 'New Task',
                     labelStyle: TextStyle(

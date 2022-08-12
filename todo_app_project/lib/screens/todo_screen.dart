@@ -13,48 +13,49 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   final List<Todo> _todoMap = [
-      // Todo(
-      //   id: DateTime.now().toString(),
-      //   title: 'Title1',
-      //   date: DateTime.now(),
-      // )
-    ];
+    // Todo(
+    //   id: DateTime.now().toString(),
+    //   title: 'Title1',
+    //   date: DateTime.now(),
+    // )
+  ];
 
-    void _addNewTodo(
-      String addtitle,
-      Importance addimportance,
-      Label addlabel,
-      DateTime adddate,
-    ) {
-      final newTodo = Todo(
-        id: DateTime.now().toString(),
-        title: addtitle,
-        importance: addimportance,
-        label: addlabel,
-        date: adddate,
-      );
+  void _addNewTodo(
+    String addtitle,
+    Importance addimportance,
+    Label addlabel,
+    DateTime adddate,
+  ) {
+    final newTodo = Todo(
+      id: DateTime.now().toString(),
+      title: addtitle,
+      importance: addimportance,
+      label: addlabel,
+      date: adddate,
+    );
 
-      setState(() {
-        _todoMap.add(newTodo);
-        print('submitted');
-      });
-    }
+    setState(() {
+      _todoMap.add(newTodo);
+      print('submitted');
+    });
+  }
 
-    void _showModal() {
-      showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (_) {
-          return GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {},
-            child: NewTodo(
-              addTodo: _addNewTodo,
-            ),
-          );
-        },
-      );
-    }
+  void _showModal() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {},
+          child: NewTodo(
+            addTodo: _addNewTodo,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

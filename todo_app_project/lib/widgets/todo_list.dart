@@ -20,75 +20,87 @@ class _TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return widget.allTodos.isEmpty
         ? const Center(
+            // Add image
             child: Text('No todos'),
           )
         : Expanded(
-            child: ListView.builder(
-              itemCount: widget.allTodos.length,
-              itemBuilder: ((context, index) {
-                final _item = widget.allTodos[index].id;
-                return Dismissible(
-                  key: Key(_item),
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    color: Theme.of(context).errorColor,
-                  ),
-                  onDismissed: (direction) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content:
-                            Text('${widget.allTodos[index].title} dismissed'),
-                        duration: const Duration(milliseconds: 500),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: widget.allTodos.length,
+                itemBuilder: ((context, index) {
+                  final _item = widget.allTodos[index].id;
+                  return Dismissible(
+                    key: Key(_item),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(
+                        Icons.delete,
+                        size: 35,
                       ),
-                    );
-                    setState(() {
-                      widget.allTodos.removeAt(index);
-                    });
-                  },
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.blueGrey[50],
-                    child: ListTile(
-                      subtitle: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Chip(
-                                label: Text(
-                                    widget.allTodos[index].importance.name),
-                                backgroundColor:
-                                    const Color.fromRGBO(255, 182, 115, 1),
-                              ),
-                              const SizedBox(width: 6),
-                              Chip(
-                                label: Text(widget.allTodos[index].label.name),
-                                backgroundColor:
-                                    const Color.fromRGBO(255, 182, 115, 1),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                widget.allTodos[index].title,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                      color: Theme.of(context).errorColor,
+                    ),
+                    onDismissed: (direction) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('${widget.allTodos[index].title} dismissed'),
+                          duration: const Duration(milliseconds: 500),
+                        ),
+                      );
+                      setState(() {
+                        widget.allTodos.removeAt(index);
+                      });
+                    },
+                    child: Card(
+                      elevation: 5,
+                      color: Colors.blueGrey[50],
+                      child: ListTile(
+                        subtitle: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Chip(
+                                  label: Text(
+                                      widget.allTodos[index].importance.name),
+                                  backgroundColor:
+                                      const Color.fromRGBO(255, 182, 115, 1),
                                 ),
-                              ),
-                              Text(
-                                DateFormat.yMEd()
-                                    .format(widget.allTodos[index].date),
-                              ),
-                            ],
-                          ),
-                        ],
+                                const SizedBox(width: 6),
+                                Chip(
+                                  label:
+                                      Text(widget.allTodos[index].label.name),
+                                  backgroundColor:
+                                      const Color.fromRGBO(255, 182, 115, 1),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.allTodos[index].title,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  DateFormat.yMEd()
+                                      .format(widget.allTodos[index].date),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                  );
+                }),
+              ),
             ),
           );
   }
