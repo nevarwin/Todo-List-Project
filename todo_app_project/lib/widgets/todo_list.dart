@@ -19,9 +19,9 @@ class _TodoListState extends State<TodoList> {
   @override
   Widget build(BuildContext context) {
     return widget.allTodos.isEmpty
-        ? const Center(
+        ? Center(
             // Add image
-            child: Text('No todos'),
+            child: Image.asset('assets/addtodo.svg'),
           )
         : Expanded(
             child: Padding(
