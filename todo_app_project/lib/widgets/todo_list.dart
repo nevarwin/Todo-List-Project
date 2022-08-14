@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/todo.dart';
 
@@ -18,10 +19,33 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   @override
   Widget build(BuildContext context) {
+    const String assetName = 'assets/addtodo.svg';
+    final Widget svg = SvgPicture.asset(
+      assetName,
+      fit: BoxFit.contain,
+      semanticsLabel: 'Add Todo',
+    );
+
     return widget.allTodos.isEmpty
         ? Center(
-            // Add image
-            child: Image.asset('assets/addtodo.svg'),
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                SizedBox(
+                  width: 250,
+                  height: 250,
+                  child: svg,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Add Todo',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
           )
         : Expanded(
             child: Padding(
@@ -39,6 +63,7 @@ class _TodoListState extends State<TodoList> {
                       child: const Icon(
                         Icons.delete,
                         size: 35,
+                        color: Colors.white,
                       ),
                       color: Theme.of(context).errorColor,
                     ),

@@ -17,6 +17,7 @@ class NewTodo extends StatefulWidget {
 
 class _NewTodoState extends State<NewTodo> {
   final titleController = TextEditingController();
+
   DateTime? _choosenDate;
   Importance _importance = Importance.low;
   Label _label = Label.todo;
@@ -93,6 +94,38 @@ class _NewTodoState extends State<NewTodo> {
     if (tCtrl == '') {
       return;
     }
+    if (_choosenDate == null) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Row(
+              children: const [
+                Icon(
+                  Icons.warning,
+                  color: Colors.red,
+                ),
+                SizedBox(width: 8),
+                Text('Alert'),
+              ],
+            ),
+            content: const Text('Please pick a date.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Ok'),
+                onPressed: () {
+                  Navigator.of(
+                    context,
+                    rootNavigator: true,
+                  ).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+      return;
+    }
     widget.addTodo(
       tCtrl,
       _importance,
@@ -122,10 +155,20 @@ class _NewTodoState extends State<NewTodo> {
               children: [
                 TextField(
                   // Todo
-                  onSubmitted: (_) => _submit,
-                  decoration: const InputDecoration(
+                  textCapitalization: TextCapitalization.sentences,
+                  enableSuggestions: false,
+                  onSubmitted: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        titleController.clear();
+                      },
+                      icon: const Icon(Icons.clear),
+                    ),
                     labelText: 'New Task',
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

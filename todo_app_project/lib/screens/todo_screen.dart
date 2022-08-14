@@ -69,6 +69,15 @@ class _TodoScreenState extends State<TodoScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Todo'),
+          actions: [
+            IconButton(
+              onPressed: _showModal,
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
         body: Column(
           children: [
