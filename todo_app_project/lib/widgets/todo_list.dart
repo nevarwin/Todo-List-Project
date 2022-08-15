@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../models/todo.dart';
+import 'package:todo_app_project/screens/todo_desc_screen.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({
@@ -79,47 +80,54 @@ class _TodoListState extends State<TodoList> {
                         widget.allTodos.removeAt(index);
                       });
                     },
-                    child: Card(
-                      elevation: 5,
-                      color: Colors.blueGrey[50],
-                      child: ListTile(
-                        subtitle: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Chip(
-                                  label: Text(
-                                      widget.allTodos[index].importance.name),
-                                  backgroundColor:
-                                      const Color.fromRGBO(255, 182, 115, 1),
-                                ),
-                                const SizedBox(width: 6),
-                                Chip(
-                                  label:
-                                      Text(widget.allTodos[index].label.name),
-                                  backgroundColor:
-                                      const Color.fromRGBO(255, 182, 115, 1),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.allTodos[index].title,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                    child: InkWell(
+                      onTap: () => Navigator.of(context).pushNamed(
+                        TodoDescScreen.routeName,
+                        arguments: widget.allTodos[index],
+                      ),
+                      child: Card(
+                        elevation: 5,
+                        color: Colors.blueGrey[50],
+                        child: ListTile(
+                          subtitle: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Chip(
+                                    label: Text(
+                                        widget.allTodos[index].importance.name),
+                                    backgroundColor:
+                                        const Color.fromRGBO(255, 182, 115, 1),
                                   ),
-                                ),
-                                Text(
-                                  DateFormat.yMEd()
-                                      .format(widget.allTodos[index].date),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(width: 6),
+                                  Chip(
+                                    label:
+                                        Text(widget.allTodos[index].label.name),
+                                    backgroundColor:
+                                        const Color.fromRGBO(255, 182, 115, 1),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    widget.allTodos[index].title,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    DateFormat.yMEd()
+                                        .format(widget.allTodos[index].date),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

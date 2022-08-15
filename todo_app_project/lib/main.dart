@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import './screens/todo_screen.dart';
+import './screens/edit_todo_screen.dart';
+import 'package:todo_app_project/screens/todo_desc_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -68,6 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
         initialRoute: '/',
         routes: {
           '/': (context) => const TodoScreen(),
+          TodoDescScreen.routeName: (context) => TodoDescScreen(),
+          EditTodoScreen.routeName: (context) => EditTodoScreen(),
         },
       ),
     );
