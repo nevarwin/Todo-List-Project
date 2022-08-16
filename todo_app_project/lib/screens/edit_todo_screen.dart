@@ -52,7 +52,17 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as Todo;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
+
+    final todoList = args['list'] as List<Todo>;
+    final individual = args['indi'] as Todo;
+
+    final idCheck = todoList.where(
+      (element) {
+        return element.id.contains(individual.id);
+      },
+    ).toList();
 
     void _editTodo(
       String addtitle,
@@ -61,7 +71,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
       DateTime adddate,
     ) {
       final newTodo = Todo(
-        id: args.id,
+        id: individual.id,
         title: addtitle,
         importance: addimportance,
         label: addlabel,
@@ -69,7 +79,9 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
       );
 
       setState(() {
-        todoMap.contains(element);
+        if (individual.id.isNotEmpty) {
+          todoList.add(newTodo);
+        }
         print('edited');
       });
     }

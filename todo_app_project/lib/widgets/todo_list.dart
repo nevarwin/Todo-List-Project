@@ -83,7 +83,10 @@ class _TodoListState extends State<TodoList> {
                     child: InkWell(
                       onTap: () => Navigator.of(context).pushNamed(
                         TodoDescScreen.routeName,
-                        arguments: widget.allTodos[index],
+                        arguments: {
+                          'indi': widget.allTodos[index],
+                          'list': widget.allTodos,
+                        },
                       ),
                       child: Card(
                         elevation: 5,

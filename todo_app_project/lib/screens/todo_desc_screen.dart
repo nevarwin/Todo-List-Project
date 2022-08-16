@@ -11,17 +11,23 @@ class TodoDescScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as Todo;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
 
-    final todoMap = [args];
+    final todoList = args['list'] as List<Todo>;
+    final individual = args['indi'] as Todo;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(args.title),
+        title: Text(individual.title),
         actions: [
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed(
               EditTodoScreen.routeName,
-              arguments: args,
+              arguments: {
+                'indi': individual,
+                'list': todoList,
+              },
             ),
             icon: const Icon(Icons.edit),
           )
@@ -29,10 +35,10 @@ class TodoDescScreen extends StatelessWidget {
       ),
       body: Center(
         child: TodoDesc(
-          title: args.title,
-          date: args.date,
-          importance: args.importance,
-          label: args.label,
+          title: individual.title,
+          date: individual.date,
+          importance: individual.importance,
+          label: individual.label,
         ),
       ),
     );
