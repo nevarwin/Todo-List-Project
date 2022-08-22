@@ -70,8 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
         initialRoute: '/',
         routes: {
           '/': (context) => const TodoScreen(),
-          TodoDescScreen.routeName: (context) => TodoDescScreen(),
-          EditTodoScreen.routeName: (context) => EditTodoScreen(),
         },
       ),
     );
