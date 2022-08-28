@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../models/todo.dart';
+import '../provider/todo.dart';
 
 class TodoList extends StatefulWidget {
-  const TodoList({
-    Key? key,
-    required this.allTodos,
-  }) : super(key: key);
-
-  final List<Todo> allTodos;
+  const TodoList({Key? key}) : super(key: key);
 
   @override
   State<TodoList> createState() => _TodoListState();
@@ -19,6 +15,9 @@ class TodoList extends StatefulWidget {
 class _TodoListState extends State<TodoList> {
   @override
   Widget build(BuildContext context) {
+    final todoData = Provider.of<TodoProvider>(context);
+    final allTodos = todoData.getTodoList;
+
     const String assetName = 'assets/addtodo.svg';
     final Widget svg = SvgPicture.asset(
       assetName,
@@ -26,7 +25,7 @@ class _TodoListState extends State<TodoList> {
       semanticsLabel: 'Add Todo',
     );
 
-    return widget.allTodos.isEmpty
+    return allTodos.isEmpty
         ? Center(
             child: Column(
               children: [
@@ -51,9 +50,9 @@ class _TodoListState extends State<TodoList> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                itemCount: widget.allTodos.length,
+                itemCount: allTodos.length,
                 itemBuilder: ((context, index) {
-                  final _item = widget.allTodos[index].id;
+                  final _item = allTodos[index].id;
                   return Dismissible(
                     key: Key(_item),
                     direction: DismissDirection.endToStart,
@@ -70,14 +69,11 @@ class _TodoListState extends State<TodoList> {
                     onDismissed: (direction) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content:
-                              Text('${widget.allTodos[index].title} dismissed'),
+                          content: Text('${allTodos[index].title} dismissed'),
                           duration: const Duration(milliseconds: 500),
                         ),
                       );
-                      setState(() {
-                        widget.allTodos.removeAt(index);
-                      });
+                      todoData.removeTodo(allTodos[index].id);
                     },
                     child: Card(
                       elevation: 5,
@@ -88,15 +84,13 @@ class _TodoListState extends State<TodoList> {
                             Row(
                               children: [
                                 Chip(
-                                  label: Text(
-                                      widget.allTodos[index].importance.name),
+                                  label: Text(allTodos[index].importance.name),
                                   backgroundColor:
                                       const Color.fromRGBO(255, 182, 115, 1),
                                 ),
                                 const SizedBox(width: 6),
                                 Chip(
-                                  label:
-                                      Text(widget.allTodos[index].label.name),
+                                  label: Text(allTodos[index].label.name),
                                   backgroundColor:
                                       const Color.fromRGBO(255, 182, 115, 1),
                                 ),
@@ -106,7 +100,7 @@ class _TodoListState extends State<TodoList> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  widget.allTodos[index].title,
+                                  allTodos[index].title,
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -115,7 +109,7 @@ class _TodoListState extends State<TodoList> {
                                 ),
                                 Text(
                                   DateFormat.yMEd()
-                                      .format(widget.allTodos[index].date),
+                                      .format(allTodos[index].date),
                                 ),
                               ],
                             ),

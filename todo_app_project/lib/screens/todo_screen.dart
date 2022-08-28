@@ -1,63 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_project/widgets/todo_list.dart';
+import 'package:provider/provider.dart';
 
-import '../models/todo.dart';
+import '../provider/todo.dart';
 import '../widgets/new_todo.dart';
+import '../widgets/todo_list.dart';
 
-class TodoScreen extends StatefulWidget {
+class TodoScreen extends StatelessWidget {
   const TodoScreen({Key? key}) : super(key: key);
 
   @override
-  State<TodoScreen> createState() => _TodoScreenState();
-}
-
-class _TodoScreenState extends State<TodoScreen> {
-  final List<Todo> _todoMap = [
-    // Todo(
-    //   id: DateTime.now().toString(),
-    //   title: 'Title1',
-    //   date: DateTime.now(),
-    // )
-  ];
-
-  void _addNewTodo(
-    String addtitle,
-    Importance addimportance,
-    Label addlabel,
-    DateTime adddate,
-  ) {
-    final newTodo = Todo(
-      id: DateTime.now().toString(),
-      title: addtitle,
-      importance: addimportance,
-      label: addlabel,
-      date: adddate,
-    );
-
-    setState(() {
-      _todoMap.add(newTodo);
-      print('submitted');
-    });
-  }
-
-  void _showModal() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (_) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {},
-          child: NewTodo(
-            addTodo: _addNewTodo,
-          ),
-        );
-      },
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final todoData = Provider.of<TodoProvider>(context);
+
+    void _showModal() {
+      showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (_) {
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {},
+            child: NewTodo(
+              addTodo: todoData.addNewTodo,
+            ),
+          );
+        },
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -80,10 +50,8 @@ class _TodoScreenState extends State<TodoScreen> {
           ],
         ),
         body: Column(
-          children: [
-            TodoList(
-              allTodos: _todoMap,
-            ),
+          children: const [
+            TodoList(),
           ],
         ),
         floatingActionButton: FloatingActionButton(

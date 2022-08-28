@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'provider/todo.dart';
 import './screens/todo_screen.dart';
 
 void main() {
@@ -37,17 +39,13 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color.fromRGBO(255, 182, 115, 1),
         ),
       ),
-      home: const MyHomePage(title: 'Flutter Todo App'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -56,19 +54,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TodoProvider(),
+        ),
+      ],
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
 
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: MaterialApp(
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const TodoScreen(),
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
         },
+        child: MaterialApp(
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const TodoScreen(),
+          },
+        ),
       ),
     );
   }

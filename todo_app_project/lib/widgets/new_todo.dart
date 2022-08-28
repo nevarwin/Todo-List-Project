@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:todo_app_project/models/todo.dart';
+import 'package:todo_app_project/provider/todo.dart';
 
 class NewTodo extends StatefulWidget {
   const NewTodo({
