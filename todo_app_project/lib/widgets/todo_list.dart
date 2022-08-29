@@ -59,6 +59,7 @@ class _TodoListState extends State<TodoList> {
                     background: Container(
                       alignment: Alignment.centerRight,
                       padding: const EdgeInsets.only(right: 20),
+                      margin: const EdgeInsets.all(4.0),
                       child: const Icon(
                         Icons.delete,
                         size: 35,
