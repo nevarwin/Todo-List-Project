@@ -106,7 +106,7 @@ class _NewTodoState extends State<NewTodo> {
                   color: Colors.red,
                 ),
                 SizedBox(width: 8),
-                Text('Alert'),
+                Text('No Date'),
               ],
             ),
             content: const Text('Please pick a date.'),
