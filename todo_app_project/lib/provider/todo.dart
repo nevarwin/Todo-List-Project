@@ -52,8 +52,16 @@ class TodoProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void undo(int index) {
+    _todoList.insert(
+      index,
+      _todoList.removeAt(index),
+    );
+    notifyListeners();
+  }
+
   void removeTodo(String id) {
-    _todoList.removeWhere((element) => element.id == id);
+    _todoList.removeWhere((todo) => todo.id == id);
     notifyListeners();
   }
 }
