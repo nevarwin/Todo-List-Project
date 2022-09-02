@@ -18,7 +18,7 @@ class Todo {
   final String title;
   final Importance importance;
   final Label label;
-  final DateTime? date;
+  var date;
 
   Todo({
     required this.id,
@@ -41,7 +41,7 @@ class TodoProvider with ChangeNotifier {
     String title,
     Importance importance,
     Label label,
-    DateTime date,
+    var date,
   ) {
     _todoList.insert(
       0,

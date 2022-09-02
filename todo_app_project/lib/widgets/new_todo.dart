@@ -18,7 +18,7 @@ class NewTodo extends StatefulWidget {
 class _NewTodoState extends State<NewTodo> {
   final titleController = TextEditingController();
 
-  DateTime? _choosenDate;
+  var _choosenDate;
   final Importance _importance = Importance.low;
   final Label _label = Label.todo;
 

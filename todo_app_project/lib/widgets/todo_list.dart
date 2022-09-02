@@ -122,10 +122,11 @@ class _TodoListState extends State<TodoList> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    DateFormat.yMEd()
-                                        .format(allTodos[index].date!),
-                                  ),
+                                  if (allTodos[index].date != null)
+                                    Text(
+                                      DateFormat.yMEd()
+                                          .format(allTodos[index].date!),
+                                    ),
                                 ],
                               ),
                             ],
