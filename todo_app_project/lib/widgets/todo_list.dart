@@ -124,7 +124,7 @@ class _TodoListState extends State<TodoList> {
                                   ),
                                   Text(
                                     DateFormat.yMEd()
-                                        .format(allTodos[index].date),
+                                        .format(allTodos[index].date!),
                                   ),
                                 ],
                               ),
