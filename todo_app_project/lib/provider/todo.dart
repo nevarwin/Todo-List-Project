@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:uuid/uuid.dart';
 
 enum Importance {
   low,
@@ -29,6 +30,7 @@ class Todo {
 }
 
 class TodoProvider with ChangeNotifier {
+  var uuid = const Uuid().v1();
   final List<Todo> _todoList = [];
 
   List<Todo> get getTodoList {
@@ -44,7 +46,7 @@ class TodoProvider with ChangeNotifier {
     _todoList.insert(
       0,
       Todo(
-        id: DateTime.now().toString(),
+        id: uuid,
         title: title,
         date: date,
       ),
