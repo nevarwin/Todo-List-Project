@@ -19,6 +19,8 @@ class ImportanceChipWidget extends StatefulWidget {
 }
 
 class _ImportanceChipWidgetState extends State<ImportanceChipWidget> {
+  Importance _importance = Importance.low;
+
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
@@ -27,8 +29,6 @@ class _ImportanceChipWidgetState extends State<ImportanceChipWidget> {
       selected: widget.chipVar == widget.importanceChip,
       onSelected: (selected) {
         setState(() {
-          Importance _importance = Importance.low;
-
           _importance = widget.importanceChip;
         });
       },

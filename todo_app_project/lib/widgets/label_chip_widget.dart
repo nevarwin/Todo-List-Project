@@ -18,6 +18,8 @@ class LabelChipWidget extends StatefulWidget {
 }
 
 class _LabelChipWidgetState extends State<LabelChipWidget> {
+  Label _label = Label.todo;
+
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
@@ -26,8 +28,6 @@ class _LabelChipWidgetState extends State<LabelChipWidget> {
       selected: widget.chipVar == widget.labelChip,
       onSelected: (selected) {
         setState(() {
-          Label _label = Label.todo;
-
           _label = widget.labelChip;
         });
       },
