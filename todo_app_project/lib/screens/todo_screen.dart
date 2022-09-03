@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../provider/todo.dart';
 import 'new_todo.dart';
 import '../widgets/todo_list.dart';
 
@@ -10,8 +8,6 @@ class TodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final todoData = Provider.of<TodoProvider>(context);
-
     void _showModal() {
       showModalBottomSheet(
         isScrollControlled: true,
@@ -20,7 +16,7 @@ class TodoScreen extends StatelessWidget {
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {},
-            child: NewTodo(),
+            child: const NewTodo(),
           );
         },
       );
