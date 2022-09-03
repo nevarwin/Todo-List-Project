@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'package:todo_app_project/provider/todo.dart';
 
 class NewTodo extends StatefulWidget {
-  const NewTodo({
-    Key? key,
-    required this.addTodo,
-  }) : super(key: key);
-
-  final Function addTodo;
+  const NewTodo({Key? key}) : super(key: key);
 
   @override
   State<NewTodo> createState() => _NewTodoState();
 }
 
 class _NewTodoState extends State<NewTodo> {
-  var _choosenDate;
+  DateTime? _choosenDate;
   var _showDetails = false;
 
-  final Importance _importance = Importance.low;
-  final Label _label = Label.todo;
-
   @override
-  void dispose() {
-    super.dispose();
+  void didChangeDependencies() {
+    final todoData = Provider.of<TodoProvider>(context);
+    super.didChangeDependencies();
   }
 
   void _setDate() {
@@ -103,7 +97,7 @@ class _NewTodoState extends State<NewTodo> {
                       size: 18,
                     ),
                     icon: Text(
-                      DateFormat.MMMEd().format(_choosenDate),
+                      DateFormat.MMMEd().format(_choosenDate!),
                       style: const TextStyle(
                         color: Colors.black,
                       ),
@@ -111,7 +105,7 @@ class _NewTodoState extends State<NewTodo> {
                   ),
                 const Spacer(),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: _save,
                   child: const Text(
                     'Save',
                     style: TextStyle(
