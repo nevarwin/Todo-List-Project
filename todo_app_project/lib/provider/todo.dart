@@ -31,7 +31,13 @@ class Todo {
 
 class TodoProvider with ChangeNotifier {
   var uuid = const Uuid().v1();
-  final List<Todo> _todoList = [];
+
+  final List<Todo> _todoList = [
+    Todo(
+      id: 'id1',
+      title: 'Title',
+    ),
+  ];
 
   List<Todo> get getTodoList {
     return [..._todoList];
