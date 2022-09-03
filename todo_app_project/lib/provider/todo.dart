@@ -14,7 +14,7 @@ enum Label {
 }
 
 class Todo {
-  final String id;
+  final String? id;
   final String title;
   final String? description;
   final Importance importance;
@@ -23,7 +23,7 @@ class Todo {
   bool checkboxValue;
 
   Todo({
-    required this.id,
+    this.id,
     required this.title,
     this.description,
     this.importance = Importance.low,
@@ -50,16 +50,15 @@ class TodoProvider with ChangeNotifier {
   }
 
   void addNewTodo(
-    String title,
-    Importance importance,
-    Label label,
-    var date,
+    Todo todo,
+    DateTime? date,
   ) {
     _todoList.insert(
       0,
       Todo(
         id: uuid,
-        title: title,
+        title: todo.title,
+        description: todo.description,
         date: date,
       ),
     );
