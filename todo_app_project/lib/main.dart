@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'provider/todo.dart';
+import '../provider/todo.dart';
 import './screens/todo_screen.dart';
 
 void main() {
