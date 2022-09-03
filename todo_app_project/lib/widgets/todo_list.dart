@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todo_app_project/screens/new_todo.dart';
 
 import '../provider/todo.dart';
 
@@ -54,82 +55,97 @@ class _TodoListState extends State<TodoList> {
                   itemCount: allTodos.length,
                   itemBuilder: (context, index) {
                     final _item = allTodos[index].id;
-                    return Dismissible(
-                      key: Key(_item),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(right: 20),
-                        margin: const EdgeInsets.all(4.0),
-                        child: const Icon(
-                          Icons.delete,
-                          size: 35,
-                          color: Colors.white,
+                    return InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (_) {
+                            return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {},
+                              child: const NewTodo(),
+                            );
+                          },
+                        );
+                      },
+                      child: Dismissible(
+                        key: Key(_item),
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 20),
+                          margin: const EdgeInsets.all(4.0),
+                          child: const Icon(
+                            Icons.delete,
+                            size: 35,
+                            color: Colors.white,
+                          ),
+                          color: Theme.of(context).errorColor,
                         ),
-                        color: Theme.of(context).errorColor,
-                      ),
-                      onDismissed: (direction) {
-                        ScaffoldMessenger.of(context)
-                            .hideCurrentMaterialBanner();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Row(
+                        onDismissed: (direction) {
+                          ScaffoldMessenger.of(context)
+                              .hideCurrentMaterialBanner();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.note,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text('${allTodos[index].title} dismissed'),
+                                ],
+                              ),
+                              duration: const Duration(days: 1),
+                            ),
+                          );
+                          todoData.removeTodo(allTodos[index].id);
+                        },
+                        child: Card(
+                          elevation: 5,
+                          color: Colors.blueGrey[50],
+                          child: ListTile(
+                            subtitle: Column(
                               children: [
-                                const Icon(
-                                  Icons.note,
-                                  color: Colors.white,
+                                Row(
+                                  children: [
+                                    Chip(
+                                      label:
+                                          Text(allTodos[index].importance.name),
+                                      backgroundColor: const Color.fromRGBO(
+                                          255, 182, 115, 1),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Chip(
+                                      label: Text(allTodos[index].label.name),
+                                      backgroundColor: const Color.fromRGBO(
+                                          255, 182, 115, 1),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 10),
-                                Text('${allTodos[index].title} dismissed'),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      allTodos[index].title,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    if (allTodos[index].date != null)
+                                      Text(
+                                        DateFormat.yMEd()
+                                            .format(allTodos[index].date!),
+                                      ),
+                                  ],
+                                ),
                               ],
                             ),
-                            duration: const Duration(days: 1),
-                          ),
-                        );
-                        todoData.removeTodo(allTodos[index].id);
-                      },
-                      child: Card(
-                        elevation: 5,
-                        color: Colors.blueGrey[50],
-                        child: ListTile(
-                          subtitle: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Chip(
-                                    label:
-                                        Text(allTodos[index].importance.name),
-                                    backgroundColor:
-                                        const Color.fromRGBO(255, 182, 115, 1),
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Chip(
-                                    label: Text(allTodos[index].label.name),
-                                    backgroundColor:
-                                        const Color.fromRGBO(255, 182, 115, 1),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    allTodos[index].title,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  if (allTodos[index].date != null)
-                                    Text(
-                                      DateFormat.yMEd()
-                                          .format(allTodos[index].date!),
-                                    ),
-                                ],
-                              ),
-                            ],
                           ),
                         ),
                       ),
