@@ -56,7 +56,7 @@ class _TodoListState extends State<TodoList> {
                   final _item = allTodos[index].id;
                   final _todos = allTodos[index];
                   return Dismissible(
-                    key: Key(_item),
+                    key: Key(_item!),
                     direction: DismissDirection.endToStart,
                     background: Container(
                       alignment: Alignment.centerRight,
@@ -86,7 +86,7 @@ class _TodoListState extends State<TodoList> {
                           duration: const Duration(days: 1),
                         ),
                       );
-                      todoData.removeTodo(_todos.id);
+                      todoData.removeTodo(_todos.id!);
                     },
                     child: Card(
                       child: Row(
@@ -102,6 +102,7 @@ class _TodoListState extends State<TodoList> {
                           ),
                           Expanded(
                             child: InkWell(
+                              onTap: () {},
                               child: ListTile(
                                 title: Text(_todos.title),
                                 subtitle: Column(
@@ -117,7 +118,6 @@ class _TodoListState extends State<TodoList> {
                                       ),
                                   ],
                                 ),
-                                // isThreeLine: true,
                               ),
                             ),
                           ),
