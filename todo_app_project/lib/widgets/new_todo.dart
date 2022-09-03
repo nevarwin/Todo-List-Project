@@ -16,15 +16,14 @@ class NewTodo extends StatefulWidget {
 }
 
 class _NewTodoState extends State<NewTodo> {
-  final titleController = TextEditingController();
-
   var _choosenDate;
+  var _showDetails = false;
+
   final Importance _importance = Importance.low;
   final Label _label = Label.todo;
 
   @override
   void dispose() {
-    titleController.dispose();
     super.dispose();
   }
 
@@ -44,97 +43,85 @@ class _NewTodoState extends State<NewTodo> {
     });
   }
 
-  void _submit() {
-    final tCtrl = titleController.text;
-
-    if (tCtrl == '') {
-      return;
-    }
-
-    widget.addTodo(
-      tCtrl,
-      _importance,
-      _label,
-      _choosenDate,
-    );
+  void _save() {
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blueGrey[50],
-      child: Container(
-        color: Colors.blueGrey[50],
+    return Form(
+      child: Padding(
         padding: EdgeInsets.only(
           top: 0,
           left: 10,
           right: 10,
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        child: Stack(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Task',
+              ),
+              validator: (value) {
+                if (value == '') {
+                  return 'Add a task';
+                }
+                return null;
+              },
+            ),
+            if (_showDetails)
+              TextFormField(
+                minLines: 1,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  labelText: 'Details',
+                ),
+              ),
+            Row(
               children: [
-                TextField(
-                  // Todo
-                  textCapitalization: TextCapitalization.sentences,
-                  enableSuggestions: false,
-                  onSubmitted: (value) {
-                    FocusScope.of(context).unfocus();
+                IconButton(
+                  color: _showDetails
+                      ? Theme.of(context).primaryColor
+                      : Colors.black,
+                  onPressed: () {
+                    setState(() {
+                      _showDetails = !_showDetails;
+                    });
                   },
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        titleController.clear();
-                      },
-                      icon: const Icon(Icons.clear),
+                  icon: const Icon(Icons.menu),
+                ),
+                IconButton(
+                  onPressed: _setDate,
+                  icon: const Icon(Icons.calendar_today),
+                ),
+                if (_choosenDate != null)
+                  TextButton.icon(
+                    onPressed: () {},
+                    label: const Icon(
+                      Icons.close,
+                      size: 18,
                     ),
-                    labelText: 'New Task',
-                    labelStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                    icon: Text(
+                      DateFormat.MMMEd().format(_choosenDate),
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                  controller: titleController,
-                  keyboardType: TextInputType.text,
-                  onChanged: (value) {
-                    value = titleController.text;
-                  },
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: _setDate,
-                      icon: const Icon(
-                        Icons.date_range_outlined,
-                        color: Color.fromRGBO(255, 182, 115, 1),
-                      ),
-                    ),
-                    Text(
-                      _choosenDate == null
-                          ? 'No Date Chosen'
-                          : DateFormat.yMEd().format(_choosenDate!),
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: TextButton(
-                    onPressed: _submit,
-                    child: const Text(
-                      'Submit',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                const Spacer(),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ],
             ),
-          ],
+          ]),
         ),
       ),
     );
