@@ -12,12 +12,26 @@ class NewTodo extends StatefulWidget {
 }
 
 class _NewTodoState extends State<NewTodo> {
+  final _formKey = GlobalKey<FormState>();
   DateTime? _choosenDate;
   var _showDetails = false;
+  final _detailsFocusNode = FocusNode();
+
+  Todo todoTemplate = Todo(
+    id: null,
+    title: '',
+    date: null,
+    description: null,
+  );
+
+  @override
+  void dispose() {
+    _detailsFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
-    final todoData = Provider.of<TodoProvider>(context);
     super.didChangeDependencies();
   }
 
@@ -38,12 +52,32 @@ class _NewTodoState extends State<NewTodo> {
   }
 
   void _save() {
+    final _isValid = _formKey.currentState!.validate();
+
+    if (!_isValid) {
+      return;
+    }
+    _formKey.currentState!.save();
+
+    Provider.of<TodoProvider>(
+      context,
+      listen: false,
+    ).addNewTodo(
+      todoTemplate,
+      _choosenDate,
+    );
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    final todoData = Provider.of<TodoProvider>(
+      context,
+      listen: false,
+    );
+
     return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.only(
           top: 0,
@@ -54,9 +88,15 @@ class _NewTodoState extends State<NewTodo> {
         child: SingleChildScrollView(
           child: Column(children: [
             TextFormField(
+              autofocus: true,
               decoration: const InputDecoration(
-                labelText: 'Task',
+                hintText: 'Task',
               ),
+              onSaved: (newValue) {
+                todoTemplate = Todo(
+                  title: newValue!,
+                );
+              },
               validator: (value) {
                 if (value == '') {
                   return 'Add a task';
@@ -69,8 +109,15 @@ class _NewTodoState extends State<NewTodo> {
                 minLines: 1,
                 maxLines: 3,
                 decoration: const InputDecoration(
-                  labelText: 'Details',
+                  hintText: 'Details',
                 ),
+                focusNode: _detailsFocusNode,
+                onSaved: (newValue) {
+                  todoTemplate = Todo(
+                    title: todoTemplate.title,
+                    description: newValue,
+                  );
+                },
               ),
             Row(
               children: [
@@ -80,6 +127,7 @@ class _NewTodoState extends State<NewTodo> {
                       : Colors.black,
                   onPressed: () {
                     setState(() {
+                      FocusScope.of(context).requestFocus(_detailsFocusNode);
                       _showDetails = !_showDetails;
                     });
                   },
