@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/todo.dart';
-import '../widgets/new_todo.dart';
+import 'new_todo.dart';
 import '../widgets/todo_list.dart';
 
 class TodoScreen extends StatelessWidget {
@@ -20,9 +20,7 @@ class TodoScreen extends StatelessWidget {
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {},
-            child: NewTodo(
-              addTodo: todoData.addNewTodo,
-            ),
+            child: NewTodo(),
           );
         },
       );
