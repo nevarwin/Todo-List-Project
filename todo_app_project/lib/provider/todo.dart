@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 enum Importance {
@@ -16,16 +16,20 @@ enum Label {
 class Todo {
   final String id;
   final String title;
+  final String? description;
   final Importance importance;
   final Label label;
-  var date;
+  final DateTime? date;
+  bool checkboxValue;
 
   Todo({
     required this.id,
     required this.title,
+    this.description,
     this.importance = Importance.low,
     this.label = Label.todo,
     this.date,
+    this.checkboxValue = false,
   });
 }
 
@@ -36,6 +40,8 @@ class TodoProvider with ChangeNotifier {
     Todo(
       id: 'id1',
       title: 'Title',
+      // description: 'Description',
+      // date: DateTime.now(),
     ),
   ];
 
