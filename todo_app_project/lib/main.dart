@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../provider/todo.dart';
 import './screens/todo_screen.dart';
+import './screens/edit_todo_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
           initialRoute: '/',
           routes: {
             '/': (context) => const TodoScreen(),
+            EditTodoScreen.routeName: (context) => const EditTodoScreen(),
           },
         ),
       ),
