@@ -89,25 +89,27 @@ class _TodoListState extends State<TodoList> {
                       todoData.removeTodo(_todos.id!);
                     },
                     child: Card(
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            activeColor: Colors.blue,
-                            value: _todos.checkboxValue,
-                            onChanged: (value) {
-                              setState(() {
-                                _todos.checkboxValue = value!;
-                              });
-                            },
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {},
-                              child: ListTile(
-                                title: Text(_todos.title),
-                                subtitle: Column(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                              activeColor: Colors.blue,
+                              value: _todos.checkboxValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _todos.checkboxValue = value!;
+                                });
+                              },
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text(_todos.title),
                                     if (_todos.description != null)
                                       Text(
                                         _todos.description!,
@@ -120,8 +122,8 @@ class _TodoListState extends State<TodoList> {
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
