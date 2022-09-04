@@ -49,6 +49,10 @@ class TodoProvider with ChangeNotifier {
     return [..._todoList];
   }
 
+  void findById(String id) {
+    _todoList.indexWhere((todo) => todo.id == id);
+  }
+
   void addNewTodo(
     Todo todo,
     DateTime? date,
