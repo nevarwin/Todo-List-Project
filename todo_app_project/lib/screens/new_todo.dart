@@ -42,12 +42,12 @@ class _NewTodoState extends State<NewTodo> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2025),
     ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
+      if (pickedDate != null) {
+        setState(() {
+          _choosenDate = pickedDate;
+        });
       }
-      setState(() {
-        _choosenDate = pickedDate;
-      });
+      return;
     });
   }
 
@@ -127,11 +127,15 @@ class _NewTodoState extends State<NewTodo> {
                       : Colors.black,
                   onPressed: () {
                     setState(() {
-                      FocusScope.of(context).requestFocus(_detailsFocusNode);
+                      FocusScope.of(context).requestFocus(
+                        _detailsFocusNode,
+                      );
                       _showDetails = !_showDetails;
                     });
                   },
-                  icon: const Icon(Icons.menu),
+                  icon: const Icon(
+                    Icons.menu_rounded,
+                  ),
                 ),
                 IconButton(
                   onPressed: _setDate,
