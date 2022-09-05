@@ -94,7 +94,7 @@ class _TodoListState extends State<TodoList> {
                         onTap: () {
                           Navigator.of(context).pushNamed(
                             EditTodoScreen.routeName,
-                            arguments: _todos.id,
+                            arguments: _todos,
                           );
                         },
                         child: Row(
