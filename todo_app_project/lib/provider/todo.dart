@@ -50,7 +50,7 @@ class TodoProvider with ChangeNotifier {
   }
 
   void findById(String id) {
-    _todoList.indexWhere((todo) => todo.id == id);
+    _todoList.firstWhere((todo) => todo.id == id);
   }
 
   void addNewTodo(
