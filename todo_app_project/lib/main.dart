@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../provider/todo.dart';
 import './screens/todo_screen.dart';
@@ -9,20 +11,6 @@ void main() {
   runApp(const MyApp());
 }
 
-Map<int, Color> color = {
-  50: const Color.fromRGBO(255, 182, 115, .1),
-  100: const Color.fromRGBO(255, 182, 115, .2),
-  200: const Color.fromRGBO(255, 182, 115, .3),
-  300: const Color.fromRGBO(255, 182, 115, .4),
-  400: const Color.fromRGBO(255, 182, 115, .5),
-  500: const Color.fromRGBO(255, 182, 115, .6),
-  600: const Color.fromRGBO(255, 182, 115, .7),
-  700: const Color.fromRGBO(255, 182, 115, .8),
-  800: const Color.fromRGBO(255, 182, 115, .9),
-  900: const Color.fromRGBO(255, 182, 115, 1),
-};
-MaterialColor colorCustom = MaterialColor(0xFFFF03, color);
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -30,16 +18,42 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Todo App',
-      theme: ThemeData(
-        primarySwatch: colorCustom,
-        buttonTheme: const ButtonThemeData(
-          buttonColor: Color.fromRGBO(255, 182, 115, 1),
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.shark,
+        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        blendLevel: 20,
+        appBarOpacity: 0.95,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 20,
+          blendOnColors: false,
+          textButtonSchemeColor: SchemeColor.tertiary,
+          outlinedButtonSchemeColor: SchemeColor.secondary,
+          fabSchemeColor: SchemeColor.secondaryContainer,
         ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          splashColor: Color.fromRGBO(255, 182, 115, 1),
-          backgroundColor: Color.fromRGBO(255, 182, 115, 1),
-        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        // To use the playground font, add GoogleFonts package and uncomment
+        fontFamily: GoogleFonts.notoSans().fontFamily,
       ),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.shark,
+        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
+        blendLevel: 15,
+        appBarStyle: FlexAppBarStyle.background,
+        appBarOpacity: 0.90,
+        subThemesData: const FlexSubThemesData(
+          blendOnLevel: 30,
+          textButtonSchemeColor: SchemeColor.tertiary,
+          outlinedButtonSchemeColor: SchemeColor.secondary,
+          fabSchemeColor: SchemeColor.secondaryContainer,
+        ),
+        visualDensity: FlexColorScheme.comfortablePlatformDensity,
+        // To use the playground font, add GoogleFonts package and uncomment
+        fontFamily: GoogleFonts.notoSans().fontFamily,
+      ),
+// If you do not have a themeMode switch, uncomment this line
+// to let the device system mode control the theme mode:
+      themeMode: ThemeMode.system,
+
       home: const MyHomePage(),
     );
   }
