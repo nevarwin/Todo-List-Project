@@ -67,7 +67,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
               ).updateTodo(
                 _todo.id!,
                 _todoTemplate,
-                _choosenDate,
+                _choosenDate ?? _todo.date,
               );
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
