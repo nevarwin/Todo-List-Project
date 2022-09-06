@@ -15,16 +15,16 @@ enum Label {
 
 class Todo {
   final String? id;
-  final String title;
+  final String? title;
   final String? description;
   final Importance importance;
   final Label label;
-  final DateTime? date;
+  DateTime? date;
   bool checkboxValue;
 
   Todo({
     this.id,
-    required this.title,
+    this.title,
     this.description,
     this.importance = Importance.low,
     this.label = Label.todo,
@@ -66,6 +66,20 @@ class TodoProvider with ChangeNotifier {
         date: date,
       ),
     );
+    notifyListeners();
+  }
+
+  void updateTodo(
+    String id,
+    Todo existingTodo,
+    DateTime? date,
+  ) {
+    final todoIndex = _todoList.indexWhere((element) => element.id == id);
+
+    if (todoIndex >= 0) {
+      _todoList[todoIndex] = existingTodo;
+      _todoList[todoIndex].date = date;
+    }
     notifyListeners();
   }
 
