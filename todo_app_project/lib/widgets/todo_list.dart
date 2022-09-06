@@ -116,7 +116,10 @@ class _TodoListState extends State<TodoList> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(_todos.title),
+                                    if (_todos.title != null)
+                                      Text(
+                                        _todos.title!,
+                                      ),
                                     if (_todos.description != null)
                                       Text(
                                         _todos.description!,
@@ -129,6 +132,7 @@ class _TodoListState extends State<TodoList> {
                                 ),
                               ),
                             ),
+                            // Text(_todos.id!),
                           ],
                         ),
                       ),
