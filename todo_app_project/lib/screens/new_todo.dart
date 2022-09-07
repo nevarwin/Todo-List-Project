@@ -30,11 +30,6 @@ class _NewTodoState extends State<NewTodo> {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
   void _setDate() {
     showDatePicker(
       context: context,
@@ -59,23 +54,15 @@ class _NewTodoState extends State<NewTodo> {
     }
     _formKey.currentState!.save();
 
-    Provider.of<TodoProvider>(
-      context,
-      listen: false,
-    ).addNewTodo(
-      todoTemplate,
-      _choosenDate,
-    );
+    context.read<TodoProvider>().addNewTodo(
+          todoTemplate,
+          _choosenDate,
+        );
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final todoData = Provider.of<TodoProvider>(
-      context,
-      listen: false,
-    );
-
     return Form(
       key: _formKey,
       child: Padding(

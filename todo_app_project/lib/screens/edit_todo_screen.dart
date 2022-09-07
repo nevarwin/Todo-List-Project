@@ -61,14 +61,11 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
             onPressed: () {
               _formGlobalKey.currentState?.save();
 
-              Provider.of<TodoProvider>(
-                context,
-                listen: false,
-              ).updateTodo(
-                _todo.id!,
-                _todoTemplate,
-                _choosenDate ?? _todo.date,
-              );
+              context.read<TodoProvider>().updateTodo(
+                    _todo.id!,
+                    _todoTemplate,
+                    _choosenDate ?? _todo.date,
+                  );
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
