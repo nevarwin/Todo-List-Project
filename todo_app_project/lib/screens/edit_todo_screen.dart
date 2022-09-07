@@ -59,6 +59,23 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              context.read<TodoProvider>().removeTodo(
+                    _todo.id!,
+                  );
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Delete'),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+
+              Navigator.of(context).pop();
+            },
+            icon: const Icon(Icons.delete_rounded),
+          ),
+          IconButton(
+            onPressed: () {
               _formGlobalKey.currentState?.save();
 
               context.read<TodoProvider>().updateTodo(
