@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 enum Importance {
@@ -53,20 +56,38 @@ class TodoProvider with ChangeNotifier {
     _todoList.firstWhere((todo) => todo.id == id);
   }
 
-  void addNewTodo(
+  Future<void> addNewTodo(
     Todo todo,
     DateTime? date,
-  ) {
-    _todoList.insert(
-      0,
-      Todo(
-        id: uuid,
-        title: todo.title,
-        description: todo.description,
-        date: date,
-      ),
+  ) async {
+    final url = Uri.https(
+      'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/todos.json',
     );
-    notifyListeners();
+
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': todo.title,
+          'description': todo.description,
+          'date': date!.toIso8601String(),
+        }),
+      );
+
+      _todoList.insert(
+        0,
+        Todo(
+          id: json.decode(response.body)['name'],
+          title: todo.title,
+          description: todo.description,
+          date: date,
+        ),
+      );
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
   }
 
   void updateTodo(
