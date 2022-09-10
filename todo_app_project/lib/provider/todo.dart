@@ -38,6 +38,10 @@ class Todo {
 
 class TodoProvider with ChangeNotifier {
   var uuid = const Uuid().v1();
+  final url = Uri.https(
+    'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
+    '/todos.json',
+  );
 
   final List<Todo> _todoList = [
     Todo(
@@ -56,15 +60,18 @@ class TodoProvider with ChangeNotifier {
     _todoList.firstWhere((todo) => todo.id == id);
   }
 
+  Future<void> fetchTodoData() async {
+    try {
+      final response = await http.get(url);
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<void> addNewTodo(
     Todo todo,
     DateTime? date,
   ) async {
-    final url = Uri.https(
-      'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/todos.json',
-    );
-
     try {
       final response = await http.post(
         url,
