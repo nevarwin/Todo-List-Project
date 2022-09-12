@@ -22,7 +22,7 @@ class Todo {
   final String? description;
   final Importance importance;
   final Label label;
-  DateTime? date;
+  String? date;
   bool checkboxValue;
 
   Todo({
@@ -43,13 +43,13 @@ class TodoProvider with ChangeNotifier {
     '/todos.json',
   );
 
-  final List<Todo> _todoList = [
-    Todo(
-      id: 'id1',
-      title: 'Title',
-      // description: 'Description',
-      // date: DateTime.now(),
-    ),
+  List<Todo> _todoList = [
+    // Todo(
+    //   id: 'id1',
+    //   title: 'Title',
+    //   // description: 'Description',
+    //   // date: DateTime.now(),
+    // ),
   ];
 
   List<Todo> get getTodoList {
@@ -60,9 +60,34 @@ class TodoProvider with ChangeNotifier {
     _todoList.firstWhere((todo) => todo.id == id);
   }
 
+  // TODO: nullable
   Future<void> fetchTodoData() async {
     try {
       final response = await http.get(url);
+      final todoFetchedData =
+          json.decode(response.body) as Map<String, dynamic>;
+
+      if (todoFetchedData.isEmpty) {
+        return;
+      }
+
+      final List<Todo> emptyList = [];
+
+      todoFetchedData.forEach((todoId, todoData) {
+        // DateTime? dateData = todoData['date'];
+
+        emptyList.insert(
+          0,
+          Todo(
+            id: todoId,
+            title: todoData['title'],
+            description: todoData['description'],
+            date: todoData['date'],
+          ),
+        );
+      });
+      _todoList = emptyList;
+      notifyListeners();
     } catch (error) {
       rethrow;
     }
@@ -70,7 +95,7 @@ class TodoProvider with ChangeNotifier {
 
   Future<void> addNewTodo(
     Todo todo,
-    DateTime? date,
+    // DateTime? date,
   ) async {
     try {
       final response = await http.post(
@@ -78,7 +103,8 @@ class TodoProvider with ChangeNotifier {
         body: json.encode({
           'title': todo.title,
           'description': todo.description,
-          'date': date!.toIso8601String(),
+          // 'date': DateFormat('EEEE d MMM hh:mm:ss').format(todo.date!),
+          'date': todo.date,
         }),
       );
 
@@ -88,7 +114,7 @@ class TodoProvider with ChangeNotifier {
           id: json.decode(response.body)['name'],
           title: todo.title,
           description: todo.description,
-          date: date,
+          date: todo.date,
         ),
       );
       notifyListeners();
@@ -97,18 +123,30 @@ class TodoProvider with ChangeNotifier {
     }
   }
 
-  void updateTodo(
+  Future<void> updateTodo(
     String id,
     Todo existingTodo,
-    DateTime? date,
-  ) {
+  ) async {
     final todoIndex = _todoList.indexWhere((element) => element.id == id);
 
+    final url = Uri.https(
+      'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/todos/$id.json',
+    );
     if (todoIndex >= 0) {
+      await http.patch(
+        url,
+        body: json.encode({
+          'title': existingTodo.title,
+          'description': existingTodo.description,
+          'date': existingTodo.date,
+        }),
+      );
+
       _todoList[todoIndex] = existingTodo;
-      _todoList[todoIndex].date = date;
+      // _todoList[todoIndex].date = date;
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   void undo(int index) {

@@ -18,14 +18,15 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
   final _sizedboxWidth = 8.0;
   DateTime? _choosenDate;
   var dateLabel = 'Add date';
+  var _isLoading = false;
 
   Todo _todoTemplate = Todo(
     title: null,
     description: null,
+    date: null,
   );
 
   void _setDate() {
-    debugPrint('trigger setdate');
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -35,6 +36,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
       if (pickedDate != null) {
         setState(() {
           _choosenDate = pickedDate;
+          _todoTemplate.date = _choosenDate.toString();
         });
       }
       return;
@@ -50,7 +52,8 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
     } else if (_choosenDate != null) {
       dateLabel = DateFormat.MMMEd().format(_choosenDate!);
     } else {
-      dateLabel = DateFormat.MMMEd().format(_todo.date!);
+      // dateLabel = DateFormat.MMMEd().format(_todo.date!);
+      dateLabel = _todo.date!;
     }
 
     return Scaffold(
@@ -75,14 +78,22 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
             icon: const Icon(Icons.delete_rounded),
           ),
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              setState(() {
+                _isLoading = true;
+              });
+              print(_todoTemplate.date);
+
               _formGlobalKey.currentState?.save();
 
-              context.read<TodoProvider>().updateTodo(
+              await context.read<TodoProvider>().updateTodo(
                     _todo.id!,
                     _todoTemplate,
-                    _choosenDate ?? _todo.date,
+                    // _choosenDate ?? _todo.date,
                   );
+              setState(() {
+                _isLoading = false;
+              });
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
@@ -97,101 +108,105 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
           ),
         ],
       ),
-      body: Form(
-        key: _formGlobalKey,
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                initialValue: _todo.title,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 0.0,
-                      style: BorderStyle.none,
-                    ),
-                  ),
-                ),
-                style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-                onSaved: (newValue) {
-                  _todoTemplate = Todo(
-                    id: _todo.id,
-                    title: newValue,
-                    description: _todoTemplate.description,
-                    date: _todo.date,
-                  );
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Row(
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Form(
+              key: _formGlobalKey,
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.menu_rounded,
+                    TextFormField(
+                      initialValue: _todo.title,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 0.0,
+                            style: BorderStyle.none,
+                          ),
+                        ),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onSaved: (newValue) {
+                        _todoTemplate = Todo(
+                          id: _todo.id,
+                          title: newValue,
+                          description: _todoTemplate.description,
+                          date: _todoTemplate.date,
+                        );
+                      },
                     ),
-                    SizedBox(
-                      width: _sizedboxWidth,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.menu_rounded,
+                          ),
+                          SizedBox(
+                            width: _sizedboxWidth,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              initialValue: _todo.description,
+                              decoration: const InputDecoration(
+                                hintText: 'Add details',
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 0.0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                              ),
+                              onSaved: (newValue) {
+                                if (newValue != '') {
+                                  _todoTemplate = Todo(
+                                    id: _todo.id,
+                                    title: _todoTemplate.title,
+                                    description: newValue,
+                                    date: _todoTemplate.date,
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Expanded(
-                      child: TextFormField(
-                        initialValue: _todo.description,
-                        decoration: const InputDecoration(
-                          hintText: 'Add details',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 0.0,
-                              style: BorderStyle.none,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: TextButton.icon(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: _setDate,
+                        icon: const Icon(
+                          Icons.edit_calendar,
+                          color: Colors.black87,
+                        ),
+                        label: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            dateLabel,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ),
-                        onSaved: (newValue) {
-                          if (newValue != '') {
-                            _todoTemplate = Todo(
-                              id: _todo.id,
-                              title: _todoTemplate.title,
-                              description: newValue,
-                              date: _todo.date,
-                            );
-                          }
-                        },
                       ),
                     ),
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: TextButton.icon(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                  ),
-                  onPressed: _setDate,
-                  icon: const Icon(
-                    Icons.edit_calendar,
-                    color: Colors.black87,
-                  ),
-                  label: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      dateLabel,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black87,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 

@@ -14,6 +14,26 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+  var _isLoading = false;
+  var _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      context.read<TodoProvider>().fetchTodoData().then(
+            (_) => setState(() {
+              _isLoading = false;
+            }),
+          );
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final todoData = Provider.of<TodoProvider>(context);
@@ -126,7 +146,7 @@ class _TodoListState extends State<TodoList> {
                                       ),
                                     if (_todos.date != null)
                                       Text(
-                                        DateFormat.MMMEd().format(_todos.date!),
+                                        _todos.date!,
                                       ),
                                   ],
                                 ),

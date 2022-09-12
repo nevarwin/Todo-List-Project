@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'new_todo.dart';
+import './new_todo.dart';
 import '../widgets/todo_list.dart';
+import '../provider/todo.dart';
 
-class TodoScreen extends StatelessWidget {
+class TodoScreen extends StatefulWidget {
   const TodoScreen({Key? key}) : super(key: key);
 
+  @override
+  State<TodoScreen> createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     void _showModal() {

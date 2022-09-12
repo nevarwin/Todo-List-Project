@@ -41,6 +41,7 @@ class _NewTodoState extends State<NewTodo> {
       if (pickedDate != null) {
         setState(() {
           _choosenDate = pickedDate;
+          todoTemplate.date = _choosenDate.toString();
         });
       }
       return;
@@ -59,10 +60,10 @@ class _NewTodoState extends State<NewTodo> {
       _isLoading = true;
     });
 
+    print(todoTemplate.date);
     try {
       await context.read<TodoProvider>().addNewTodo(
             todoTemplate,
-            _choosenDate,
           );
     } catch (error) {
       showDialog(
@@ -70,7 +71,7 @@ class _NewTodoState extends State<NewTodo> {
         builder: (context) {
           return AlertDialog(
             title: const Text('An error occured!'),
-            content: const Text('Something went wrong'),
+            content: Text('Something went wrong $error'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -82,12 +83,11 @@ class _NewTodoState extends State<NewTodo> {
           );
         },
       );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
@@ -115,6 +115,8 @@ class _NewTodoState extends State<NewTodo> {
                     onSaved: (newValue) {
                       todoTemplate = Todo(
                         title: newValue!,
+                        description: todoTemplate.description,
+                        date: todoTemplate.date,
                       );
                     },
                     validator: (value) {
@@ -136,6 +138,7 @@ class _NewTodoState extends State<NewTodo> {
                         todoTemplate = Todo(
                           title: todoTemplate.title,
                           description: newValue,
+                          date: todoTemplate.date,
                         );
                       },
                     ),
@@ -162,18 +165,19 @@ class _NewTodoState extends State<NewTodo> {
                         icon: const Icon(Icons.calendar_today),
                       ),
                       if (_choosenDate != null)
-                        TextButton.icon(
-                          onPressed: () {},
-                          label: const Icon(
-                            Icons.close,
-                            size: 18,
-                          ),
-                          icon: Text(
-                            DateFormat.MMMEd().format(_choosenDate!),
-                            style: const TextStyle(
-                              color: Colors.black,
+                        Row(
+                          children: [
+                            Text(
+                              DateFormat.MMMEd().format(_choosenDate!),
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
+                            CloseButton(
+                              onPressed: () {},
+                              color: Theme.of(context).errorColor,
+                            )
+                          ],
                         ),
                       const Spacer(),
                       TextButton(
