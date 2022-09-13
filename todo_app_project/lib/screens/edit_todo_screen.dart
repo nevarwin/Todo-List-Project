@@ -68,17 +68,27 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
         title: const Text('Edit Task'),
         actions: [
           IconButton(
-            onPressed: () {
-              context.read<TodoProvider>().removeTodo(
-                    _todo.id!,
-                  );
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Delete'),
-                  duration: Duration(seconds: 1),
-                ),
-              );
+            onPressed: () async {
+              try {
+                await context.read<TodoProvider>().removeTodo(
+                      _todo.id!,
+                    );
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Deleted'),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              } catch (error) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Deletion Failed'),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              }
 
               Navigator.of(context).pop();
             },

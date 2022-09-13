@@ -35,6 +35,7 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
     final todoData = Provider.of<TodoProvider>(context);
 
     final allTodos = todoData.getTodoList;
@@ -89,24 +90,43 @@ class _TodoListState extends State<TodoList> {
                       ),
                       color: Theme.of(context).errorColor,
                     ),
-                    onDismissed: (direction) {
-                      ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Row(
-                            children: [
-                              const Icon(
-                                Icons.note,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(width: 10),
-                              Text('${_todos.title} dismissed'),
-                            ],
+                    onDismissed: (direction) async {
+                      try {
+                        await todoData.removeTodo(_item);
+                        scaffold.hideCurrentMaterialBanner();
+                        scaffold.showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                const Icon(
+                                  Icons.note,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 10),
+                                Text('${_todos.title} dismissed'),
+                              ],
+                            ),
+                            duration: const Duration(seconds: 1),
                           ),
-                          duration: const Duration(days: 1),
-                        ),
-                      );
-                      todoData.removeTodo(_item);
+                        );
+                      } catch (error) {
+                        scaffold.hideCurrentMaterialBanner();
+                        scaffold.showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: const [
+                                Icon(
+                                  Icons.note,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 10),
+                                Text('Deletion Failed'),
+                              ],
+                            ),
+                            duration: const Duration(seconds: 1),
+                          ),
+                        );
+                      }
                     },
                     child: Card(
                       child: InkWell(

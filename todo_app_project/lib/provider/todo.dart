@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo_app_project/provider/http_exception.dart';
 import 'package:uuid/uuid.dart';
 
 enum Importance {
@@ -151,8 +153,23 @@ class TodoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeTodo(String id) {
-    _todoList.removeWhere((todo) => todo.id == id);
+  Future<void> removeTodo(String id) async {
+    final url = Uri.https(
+      'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/todos/$id.json',
+    );
+    final todoIndex = _todoList.indexWhere((todo) => todo.id == id);
+    Todo? todoItems = _todoList[todoIndex];
+
+    _todoList.removeAt(todoIndex);
     notifyListeners();
+
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _todoList.insert(todoIndex, todoItems);
+      notifyListeners();
+      throw HttpException('An error occured');
+    }
+    todoItems = null;
   }
 }
