@@ -36,7 +36,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
       if (pickedDate != null) {
         setState(() {
           _choosenDate = pickedDate;
-          _todoTemplate.date = _choosenDate.toString();
+          _todoTemplate.date = DateFormat.MMMEd().format(pickedDate).toString();
         });
       }
       return;
@@ -47,13 +47,20 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
   Widget build(BuildContext context) {
     final _todo = ModalRoute.of(context)!.settings.arguments as Todo;
 
+    // datelabel is 'add date' text
     if (_choosenDate == null && _todo.date == null) {
       dateLabel;
+      // checking if the user selected new date then it will be displayed
     } else if (_choosenDate != null) {
       dateLabel = DateFormat.MMMEd().format(_choosenDate!);
+      // if saved without picking a new date.
+      // It must be remained to be the first date selected.
     } else {
-      // dateLabel = DateFormat.MMMEd().format(_todo.date!);
       dateLabel = _todo.date!;
+    }
+
+    if (_choosenDate == null) {
+      _todoTemplate.date = _todo.date;
     }
 
     return Scaffold(
@@ -82,7 +89,6 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
               setState(() {
                 _isLoading = true;
               });
-              print(_todoTemplate.date);
 
               _formGlobalKey.currentState?.save();
 
@@ -181,26 +187,44 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: TextButton.icon(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                        ),
-                        onPressed: _setDate,
-                        icon: const Icon(
-                          Icons.edit_calendar,
-                          color: Colors.black87,
-                        ),
-                        label: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            dateLabel,
-                            style: const TextStyle(
-                              fontSize: 16,
+                      child: Row(
+                        children: [
+                          TextButton.icon(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                            ),
+                            onPressed: _setDate,
+                            icon: const Icon(
+                              Icons.edit_calendar,
                               color: Colors.black87,
-                              fontWeight: FontWeight.normal,
+                            ),
+                            label: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                dateLabel,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          if (_todo.date != null ||
+                              _choosenDate != null ||
+                              _todoTemplate.date != null)
+                            CloseButton(
+                              onPressed: () {
+                                setState(() {
+                                  dateLabel = 'Add date';
+                                  _todo.date = null;
+                                  _choosenDate = null;
+                                  _todoTemplate.date = null;
+                                });
+                              },
+                              color: Theme.of(context).errorColor,
+                            )
+                        ],
                       ),
                     ),
                   ],

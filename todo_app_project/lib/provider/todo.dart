@@ -60,7 +60,6 @@ class TodoProvider with ChangeNotifier {
     _todoList.firstWhere((todo) => todo.id == id);
   }
 
-  // TODO: nullable
   Future<void> fetchTodoData() async {
     try {
       final response = await http.get(url);
@@ -74,8 +73,6 @@ class TodoProvider with ChangeNotifier {
       final List<Todo> emptyList = [];
 
       todoFetchedData.forEach((todoId, todoData) {
-        // DateTime? dateData = todoData['date'];
-
         emptyList.insert(
           0,
           Todo(
@@ -95,7 +92,6 @@ class TodoProvider with ChangeNotifier {
 
   Future<void> addNewTodo(
     Todo todo,
-    // DateTime? date,
   ) async {
     try {
       final response = await http.post(
@@ -103,7 +99,6 @@ class TodoProvider with ChangeNotifier {
         body: json.encode({
           'title': todo.title,
           'description': todo.description,
-          // 'date': DateFormat('EEEE d MMM hh:mm:ss').format(todo.date!),
           'date': todo.date,
         }),
       );
@@ -144,7 +139,6 @@ class TodoProvider with ChangeNotifier {
       );
 
       _todoList[todoIndex] = existingTodo;
-      // _todoList[todoIndex].date = date;
       notifyListeners();
     }
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo_app_project/screens/edit_todo_screen.dart';
 
@@ -107,7 +106,7 @@ class _TodoListState extends State<TodoList> {
                           duration: const Duration(days: 1),
                         ),
                       );
-                      todoData.removeTodo(_todos.id!);
+                      todoData.removeTodo(_item);
                     },
                     child: Card(
                       child: InkWell(

@@ -41,7 +41,7 @@ class _NewTodoState extends State<NewTodo> {
       if (pickedDate != null) {
         setState(() {
           _choosenDate = pickedDate;
-          todoTemplate.date = _choosenDate.toString();
+          todoTemplate.date = DateFormat.MMMEd().format(pickedDate).toString();
         });
       }
       return;
@@ -60,7 +60,6 @@ class _NewTodoState extends State<NewTodo> {
       _isLoading = true;
     });
 
-    print(todoTemplate.date);
     try {
       await context.read<TodoProvider>().addNewTodo(
             todoTemplate,
@@ -114,7 +113,7 @@ class _NewTodoState extends State<NewTodo> {
                     ),
                     onSaved: (newValue) {
                       todoTemplate = Todo(
-                        title: newValue!,
+                        title: newValue,
                         description: todoTemplate.description,
                         date: todoTemplate.date,
                       );
@@ -174,7 +173,12 @@ class _NewTodoState extends State<NewTodo> {
                               ),
                             ),
                             CloseButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  _choosenDate = null;
+                                  todoTemplate.date = null;
+                                });
+                              },
                               color: Theme.of(context).errorColor,
                             )
                           ],
