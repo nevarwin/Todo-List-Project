@@ -6,22 +6,22 @@ import '../widgets/todo_list.dart';
 class TodoScreen extends StatelessWidget {
   const TodoScreen({Key? key}) : super(key: key);
 
+  void _showModal(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {},
+          child: const NewTodo(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _showModal() {
-      showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (_) {
-          return GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {},
-            child: const NewTodo(),
-          );
-        },
-      );
-    }
-
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -35,7 +35,7 @@ class TodoScreen extends StatelessWidget {
           title: const Text('Todo'),
           actions: [
             IconButton(
-              onPressed: _showModal,
+              onPressed: () => _showModal(context),
               icon: const Icon(
                 Icons.add,
                 color: Colors.white,
@@ -50,7 +50,7 @@ class TodoScreen extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: _showModal,
+          onPressed: () => _showModal(context),
         ),
       ),
     );
