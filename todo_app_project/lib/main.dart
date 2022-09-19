@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../provider/todo.dart';
 import './screens/todo_screen.dart';
 import './screens/edit_todo_screen.dart';
+import './screens/authentication_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -84,9 +85,10 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
         child: MaterialApp(
-          initialRoute: '/',
+          // initialRoute: const AuthenticationScreen(),
+          home: const AuthenticationScreen(),
           routes: {
-            '/': (context) => const TodoScreen(),
+            TodoScreen.routeName: (context) => const TodoScreen(),
             EditTodoScreen.routeName: (context) => const EditTodoScreen(),
           },
         ),

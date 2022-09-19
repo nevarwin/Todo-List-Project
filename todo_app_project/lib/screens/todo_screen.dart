@@ -6,6 +6,8 @@ import '../widgets/todo_list.dart';
 class TodoScreen extends StatelessWidget {
   const TodoScreen({Key? key}) : super(key: key);
 
+  static const routeName = '/todo-screen';
+
   void _showModal(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
