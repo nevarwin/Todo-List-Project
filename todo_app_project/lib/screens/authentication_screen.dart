@@ -40,7 +40,7 @@ class AuthenticationScreen extends StatelessWidget {
                         horizontal: 94.0,
                       ),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
                         boxShadow: const [
                           BoxShadow(
@@ -62,7 +62,7 @@ class AuthenticationScreen extends StatelessWidget {
                   ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
-                    child: AuthWidget(),
+                    child: const AuthWidget(),
                   ),
                 ],
               ),
