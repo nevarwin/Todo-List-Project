@@ -4,6 +4,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../provider/todo.dart';
+import '../provider/auth.dart';
 import './screens/todo_screen.dart';
 import './screens/edit_todo_screen.dart';
 import './screens/authentication_screen.dart';
@@ -74,6 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
       providers: [
         ChangeNotifierProvider(
           create: (context) => TodoProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
         ),
       ],
       child: GestureDetector(
