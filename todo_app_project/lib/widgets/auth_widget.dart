@@ -82,6 +82,7 @@ class _AuthWidgetState extends State<AuthWidget> {
       }
       errorDialog(errorMessage);
     } catch (error) {
+      print(error);
       var errorMessage = 'Cannot authenticate. Please try again later';
       errorDialog(errorMessage);
     }
@@ -189,7 +190,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                 ),
                 ElevatedButton(
                   onPressed: _submit,
-                  child: const Text('Submit'),
+                  child: const Text('Sign In'),
                 ),
                 const SizedBox(
                   height: 10,
@@ -198,9 +199,7 @@ class _AuthWidgetState extends State<AuthWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      _authMode == AuthMode.login
-                          ? 'New user?'
-                          : 'Already have an account?',
+                      _authMode == AuthMode.login ? 'New user?' : 'Already have an account?',
                     ),
                     InkWell(
                       onTap: _switchAuthMode,

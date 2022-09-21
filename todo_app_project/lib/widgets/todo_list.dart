@@ -140,8 +140,7 @@ class _TodoListState extends State<TodoList> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Checkbox(
-                              activeColor:
-                                  Theme.of(context).colorScheme.primary,
+                              activeColor: Theme.of(context).colorScheme.primary,
                               value: _todos.checkboxValue,
                               onChanged: (value) {
                                 setState(() {

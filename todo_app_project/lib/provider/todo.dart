@@ -4,26 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:todo_app_project/provider/http_exception.dart';
-import 'package:uuid/uuid.dart';
-
-enum Importance {
-  low,
-  medium,
-  high,
-}
-
-enum Label {
-  todo,
-  doing,
-  done,
-}
 
 class Todo {
   final String? id;
   final String? title;
   final String? description;
-  final Importance importance;
-  final Label label;
   String? date;
   bool checkboxValue;
 
@@ -31,28 +16,19 @@ class Todo {
     this.id,
     this.title,
     this.description,
-    this.importance = Importance.low,
-    this.label = Label.todo,
     this.date,
     this.checkboxValue = false,
   });
 }
 
 class TodoProvider with ChangeNotifier {
-  var uuid = const Uuid().v1();
-  final url = Uri.https(
-    'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
-    '/todos.json',
-  );
+  List<Todo> _todoList = [];
+  final String authToken;
 
-  List<Todo> _todoList = [
-    // Todo(
-    //   id: 'id1',
-    //   title: 'Title',
-    //   // description: 'Description',
-    //   // date: DateTime.now(),
-    // ),
-  ];
+  TodoProvider(
+    this.authToken,
+    this._todoList,
+  );
 
   List<Todo> get getTodoList {
     return [..._todoList];
@@ -63,10 +39,13 @@ class TodoProvider with ChangeNotifier {
   }
 
   Future<void> fetchTodoData() async {
+    final url = Uri.https(
+      'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/todos.json?auth=$authToken',
+    );
     try {
       final response = await http.get(url);
-      final todoFetchedData =
-          json.decode(response.body) as Map<String, dynamic>;
+      final todoFetchedData = json.decode(response.body) as Map<String, dynamic>;
 
       if (todoFetchedData.isEmpty) {
         return;
@@ -95,6 +74,11 @@ class TodoProvider with ChangeNotifier {
   Future<void> addNewTodo(
     Todo todo,
   ) async {
+    final url = Uri.https(
+      'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/todos.json?auth=$authToken',
+    );
+
     try {
       final response = await http.post(
         url,
