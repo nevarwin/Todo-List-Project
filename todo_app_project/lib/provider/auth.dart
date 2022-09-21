@@ -9,6 +9,8 @@ import '../provider/http_exception.dart';
 class Auth {}
 
 class AuthProvider with ChangeNotifier {
+  // TODO: Review
+
   String? _token;
   DateTime? _expiryDate;
   String? _userId;

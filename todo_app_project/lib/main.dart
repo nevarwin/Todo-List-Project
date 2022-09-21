@@ -76,6 +76,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ChangeNotifierProvider(
           create: (context) => AuthProvider(),
         ),
+
+        // TODO: Bug
+
         ProxyProvider<AuthProvider, TodoProvider>(
           update: (context, value, previous) => TodoProvider(
             value.token,
