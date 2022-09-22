@@ -19,11 +19,11 @@ class AuthProvider with ChangeNotifier {
     return _token != null;
   }
 
-  String get token {
+  String? get getToken {
     if (_token != null && _expiryDate != null && _expiryDate!.isAfter(DateTime.now())) {
-      return _token!;
+      return _token;
     }
-    return '';
+    return null;
   }
 
   Future<void> authentication(
@@ -46,7 +46,7 @@ class AuthProvider with ChangeNotifier {
       );
 
       final responseData = json.decode(response.body);
-      print(responseData['error']['message']);
+
       if (responseData['error'] != null) {
         throw HttpException(
           responseData['error']['message'],
