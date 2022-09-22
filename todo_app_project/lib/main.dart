@@ -10,6 +10,7 @@ import './screens/todo_screen.dart';
 import './screens/edit_todo_screen.dart';
 
 void main() {
+  Provider.debugCheckInvalidValueType = null;
   runApp(const MyApp());
 }
 
@@ -77,11 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
           create: (context) => AuthProvider(),
         ),
 
-        // TODO: Bug
-
+        // TODO: Review
         ProxyProvider<AuthProvider, TodoProvider>(
           update: (context, value, previous) => TodoProvider(
-            value.token,
+            value.getToken!,
             previous == null ? [] : previous.getTodoList,
           ),
         ),
