@@ -8,20 +8,6 @@ class TodoScreen extends StatelessWidget {
 
   static const routeName = '/todo-screen';
 
-  void _showModal(BuildContext context) {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (_) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () {},
-          child: const NewTodo(),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     void _showModal() {
