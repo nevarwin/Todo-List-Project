@@ -23,13 +23,7 @@ class Todo {
 
 class TodoProvider with ChangeNotifier {
   List<Todo> _todoList = [];
-  final String authToken;
-
-  // TODO: Review
-  TodoProvider(
-    this.authToken,
-    this._todoList,
-  );
+  final client = http.Client();
 
   List<Todo> get getTodoList {
     return [..._todoList];
@@ -42,11 +36,11 @@ class TodoProvider with ChangeNotifier {
   Future<void> fetchTodoData() async {
     final url = Uri.https(
       'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/todos.json?auth=$authToken',
+      '/todos.json',
     );
     try {
-      final response = await http.get(url);
-      final todoFetchedData = json.decode(response.body) as Map<String, dynamic>;
+      final response = await client.get(url);
+      final todoFetchedData = json.decode(response.body);
 
       if (todoFetchedData.isEmpty) {
         return;
@@ -77,13 +71,13 @@ class TodoProvider with ChangeNotifier {
   ) async {
     final url = Uri.https(
       'todoproject-4ce81-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/todos.json?auth=$authToken',
+      '/todos.json',
     );
 
     try {
-      final response = await http.post(
+      final response = await client.post(
         url,
-        body: json.encode({
+        body: jsonEncode({
           'title': todo.title,
           'description': todo.description,
           'date': todo.date,
@@ -116,7 +110,7 @@ class TodoProvider with ChangeNotifier {
       '/todos/$id.json',
     );
     if (todoIndex >= 0) {
-      await http.patch(
+      await client.patch(
         url,
         body: json.encode({
           'title': existingTodo.title,
@@ -149,7 +143,7 @@ class TodoProvider with ChangeNotifier {
     _todoList.removeAt(todoIndex);
     notifyListeners();
 
-    final response = await http.delete(url);
+    final response = await client.delete(url);
     if (response.statusCode >= 400) {
       _todoList.insert(todoIndex, todoItems);
       notifyListeners();

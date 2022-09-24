@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo_app_project/screens/authentication_screen.dart';
 
 import '../provider/todo.dart';
-import '../provider/auth.dart';
 import './screens/todo_screen.dart';
 import './screens/edit_todo_screen.dart';
 
@@ -75,15 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AuthProvider(),
-        ),
-
-        // TODO: Review
-        ProxyProvider<AuthProvider, TodoProvider>(
-          update: (context, value, previous) => TodoProvider(
-            value.getToken!,
-            previous == null ? [] : previous.getTodoList,
-          ),
+          create: (context) => TodoProvider(),
         ),
       ],
       child: GestureDetector(
@@ -94,16 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
             currentFocus.unfocus();
           }
         },
-        child: Consumer<AuthProvider>(
-          builder: (context, authValue, _) {
-            return MaterialApp(
-              // initialRoute: const AuthenticationScreen(),
-              home: authValue.isAuth ? const TodoScreen() : const AuthenticationScreen(),
-              routes: {
-                TodoScreen.routeName: (context) => const TodoScreen(),
-                EditTodoScreen.routeName: (context) => const EditTodoScreen(),
-              },
-            );
+        child: MaterialApp(
+          // initialRoute: const AuthenticationScreen(),
+          home: const TodoScreen(),
+          routes: {
+            TodoScreen.routeName: (context) => const TodoScreen(),
+            EditTodoScreen.routeName: (context) => const EditTodoScreen(),
           },
         ),
       ),
