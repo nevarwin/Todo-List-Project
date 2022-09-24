@@ -22,15 +22,11 @@ class Todo {
 }
 
 class TodoProvider with ChangeNotifier {
-  List<Todo> _todoList = [];
   final client = http.Client();
+  List<Todo> _todoList = [];
 
   List<Todo> get getTodoList {
     return [..._todoList];
-  }
-
-  void findById(String id) {
-    _todoList.firstWhere((todo) => todo.id == id);
   }
 
   Future<void> fetchTodoData() async {
@@ -40,7 +36,8 @@ class TodoProvider with ChangeNotifier {
     );
     try {
       final response = await client.get(url);
-      final todoFetchedData = json.decode(response.body);
+      final todoFetchedData =
+          json.decode(response.body); // Map of String and dynamic, a json object
 
       if (todoFetchedData.isEmpty) {
         return;
@@ -56,6 +53,7 @@ class TodoProvider with ChangeNotifier {
             title: todoData['title'],
             description: todoData['description'],
             date: todoData['date'],
+            checkboxValue: todoData['checkBox'],
           ),
         );
       });
@@ -81,6 +79,7 @@ class TodoProvider with ChangeNotifier {
           'title': todo.title,
           'description': todo.description,
           'date': todo.date,
+          'checkBox': false,
         }),
       );
 

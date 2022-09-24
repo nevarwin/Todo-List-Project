@@ -131,10 +131,12 @@ class _TodoListState extends State<TodoList> {
                     child: Card(
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).pushNamed(
-                            EditTodoScreen.routeName,
-                            arguments: _todos,
-                          );
+                          _todos.checkboxValue
+                              ? null
+                              : Navigator.of(context).pushNamed(
+                                  EditTodoScreen.routeName,
+                                  arguments: _todos,
+                                );
                         },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,14 +159,35 @@ class _TodoListState extends State<TodoList> {
                                     if (_todos.title != null)
                                       Text(
                                         _todos.title!,
+                                        style: _todos.checkboxValue
+                                            ? const TextStyle(
+                                                decoration: TextDecoration.lineThrough,
+                                              )
+                                            : const TextStyle(
+                                                decoration: TextDecoration.none,
+                                              ),
                                       ),
                                     if (_todos.description != null)
                                       Text(
                                         _todos.description!,
+                                        style: _todos.checkboxValue
+                                            ? const TextStyle(
+                                                decoration: TextDecoration.lineThrough,
+                                              )
+                                            : const TextStyle(
+                                                decoration: TextDecoration.none,
+                                              ),
                                       ),
                                     if (_todos.date != null)
                                       Text(
                                         _todos.date!,
+                                        style: _todos.checkboxValue
+                                            ? const TextStyle(
+                                                decoration: TextDecoration.lineThrough,
+                                              )
+                                            : const TextStyle(
+                                                decoration: TextDecoration.none,
+                                              ),
                                       ),
                                   ],
                                 ),
