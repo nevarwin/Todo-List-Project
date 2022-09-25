@@ -113,7 +113,7 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Successful'),
+                  content: Text('Successfully added'),
                   duration: Duration(seconds: 1),
                 ),
               );
@@ -243,11 +243,4 @@ class _EditTodoScreenState extends State<EditTodoScreen> {
             ),
     );
   }
-
-//   String buildText() {
-//     if (_choosenDate != null) {
-//       setState(() {});
-//     }
-//     return 'Add date';
-//   }
 }
