@@ -1,5 +1,5 @@
 # Todo List Project
- Todo List App Project 
- Created using Flutter
- Used Firebase as online database
- Provider package for the state management
+ Todo List App Project <br>
+ Created using Flutter <br>
+ Used Firebase as online database <br>
+ Provider package for the state management <br>
